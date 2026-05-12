@@ -19,6 +19,7 @@
 - 做产品演示、教程、keynote 式讲解、视觉 talk
 - 做“动态 PPT，但不要像 PPT”的演示体验
 - 在视觉 outline 对齐后，可选合成口播音频
+- 用 APIMart GPT Image 2 批量生成封面图、章节插图和信息图素材
 
 这个 Skill 的核心是**方法论 + 协作流程**。脚手架提供 token、舞台原语、主题和示例，但每个项目仍然应该根据主题重新选择视觉语言。
 
@@ -74,6 +75,7 @@ skills/web-video-presentation/
 │   ├── SCRIPT-STYLE.md
 │   ├── THEMES.md
 │   ├── AUDIO.md
+│   ├── IMAGE-GENERATION.md
 │   └── RECORDING.md
 ├── scripts/
 │   └── scaffold.sh
@@ -111,6 +113,40 @@ bash skills/web-video-presentation/scripts/scaffold.sh --list-themes
 
 ---
 
+## GPT Image 2 生图
+
+脚手架项目会包含：
+
+```text
+asset-plan.md
+image-prompts.md
+image-manifest.json
+scripts/generate-images.mjs
+```
+
+推荐顺序：
+
+```bash
+npm run generate-images -- --dry-run
+cp .env.example .env
+npm run generate-images
+```
+
+默认使用 APIMart GPT Image 2：
+
+```json
+{
+  "model": "gpt-image-2",
+  "n": 1,
+  "size": "16:9",
+  "resolution": "2k"
+}
+```
+
+完整流程见 [IMAGE-GENERATION.md](./references/IMAGE-GENERATION.md)。
+
+---
+
 ## 内置主题方向
 
 Skill 内置多套主题，每套都有自己的设计 DNA，不只是换色：
@@ -138,5 +174,6 @@ Skill 内置多套主题，每套都有自己的设计 DNA，不只是换色：
 - [SCRIPT-STYLE.md](./references/SCRIPT-STYLE.md)：文章转口播稿规则
 - [PATTERNS.md](./references/PATTERNS.md)：可选视觉 primitive 配方
 - [AUDIO.md](./references/AUDIO.md)：可选口播音频合成流程
+- [IMAGE-GENERATION.md](./references/IMAGE-GENERATION.md)：APIMart GPT Image 2 生图流程
 - [RECORDING.md](./references/RECORDING.md)：录屏与后期注意事项
 

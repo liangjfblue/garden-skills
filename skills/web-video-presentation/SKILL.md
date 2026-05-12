@@ -55,6 +55,9 @@ my-video/
 ├── article.md          # 用户给原文时必有 —— 不删！开发阶段画面信息源
 ├── script.md           # 必有：B 站风格口播稿（决定节拍）
 ├── outline.md          # 必有：开发计划（章节切分 + 每步内容 + 信息池）
+├── asset-plan.md       # 可选但推荐：每章图片素材需求
+├── image-prompts.md    # 可选但推荐：GPT Image 2 生图 prompt
+├── image-manifest.json # 可选但推荐：生成素材路径 / 状态 / task id
 └── presentation/       # 脚手架产出的 Vite + React + TS 项目
     ├── src/chapters/<NN>-<id>/
     │   ├── <Chapter>.tsx     # 视觉实现
@@ -110,6 +113,7 @@ Phase 2.4 的"实现单章"会重复 N 次 —— 每次都要回看核心约束
 | **Checkpoint Plan 选主题** | —— | `themes/*/theme.json`（动态读全部，列清单 + `bestFor` 推荐 + `descriptionZh`）；`references/THEMES.md`（用户想了解主题系统时） |
 | Phase 2.1 脚手架 | —— | SKILL.md 本节看一次 |
 | **Phase 2.4 实现单章（×N 次，被 2.2 / 2.3 调用）** | **`references/CHAPTER-CRAFT.md`** 单一入口 —— Part 0 十条原则 / Part 1 开工 5 问 / Part 2 关系→动作决策树 / Part 3 视觉工具箱 / Part 4 时长参考 / Part 5 反 AI 味反模式 / Part 6 代码硬规则（**含 narrations.ts 强制约束**）/ Part 7 完工自检 / Part 8 反馈速查 + 当前主题的 `themes/<id>/theme.json` + 当前章节的 outline.md 段落 + **`article.md` 本章对应段落** + 素材清单 | `references/EXAMPLES/`（结构示意，不是抄袭模板）；`references/THEMES.md` 完整 token 契约 |
+| GPT Image 2 生图 | `references/IMAGE-GENERATION.md` | `GPT Image 2 提示词模板库.md` |
 | Phase 3 音频合成 | `references/AUDIO.md`（含 narrations.ts → segments.json → mmx 流程） | —— |
 | Phase 4 录屏 + 后期 | `references/RECORDING.md`（含 `?auto=1` 自动录屏） | —— |
 | 选 / 造 / 切主题 | —— | `references/THEMES.md` |
@@ -172,6 +176,9 @@ Phase 2.4 的"实现单章"会重复 N 次 —— 每次都要回看核心约束
 2. 根据 `script.md` 的内容类型 / 关键词 / 语气，**主动**从主题里挑 2~3
    套**最匹配的推荐**（匹配 `bestFor` 字段）
 3. 扫一遍 `outline.md` 末尾"素材清单"部分
+4. 如果用户要用 GPT Image 2 或素材主要靠生图，按
+   [`references/IMAGE-GENERATION.md`](references/IMAGE-GENERATION.md)
+   先产出 / 更新 `asset-plan.md` 和 `image-prompts.md`，让用户在此节点确认。
 
 ### 总结模板（骨架，agent 按情况填充）
 
@@ -204,6 +211,8 @@ Phase 2.4 的"实现单章"会重复 N 次 —— 每次都要回看核心约束
 
   4. 真素材怎么准备？粗看本视频要的图：<列粗略清单>
      a) 我从 <现有素材路径> 帮你挑   b) 你自己提供   c) 全部 placeholder
+     d) 走 GPT Image 2 生图：先确认 asset-plan.md / image-prompts.md，
+        再用 APIMart 接口生成到 assets/ 并写 image-manifest.json
 
   5. 开发模式选哪个？
 
@@ -250,6 +259,27 @@ rm -rf presentation/src/chapters/01-example
 
 并把 `presentation/src/registry/chapters.ts` 里 `EXAMPLE_CHAPTER`
 的 import 和数组项移除。
+
+脚手架也会带上 GPT Image 2 生图流程文件：
+
+```text
+presentation/
+├── asset-plan.md
+├── image-prompts.md
+├── image-manifest.json
+├── assets/
+└── scripts/generate-images.mjs
+```
+
+用法：
+
+```bash
+cd presentation
+npm run generate-images -- --dry-run
+APIMART_API_KEY=sk-... npm run generate-images
+```
+
+详细规则见 [`references/IMAGE-GENERATION.md`](references/IMAGE-GENERATION.md)。
 
 ### 2.2 第 1 章 —— 主线程 + 强制验收
 
@@ -434,6 +464,7 @@ Part 8「常见反馈速查」。**关键**：先定位是哪一层（节奏 / �
 | [`references/EXAMPLES/`](references/EXAMPLES/) | **可选** —— 看结构 | 章节结构示意（hook / list-reveal / case-tech-review）；**不是抄袭模板** |
 | [`references/THEMES.md`](references/THEMES.md) | 选 / 造 / 切主题时 | 完整 token 契约 + 内置主题清单 + 创作流程 |
 | [`references/AUDIO.md`](references/AUDIO.md) | Phase 3 才读 | MiniMax CLI、TTS 退化路径、故障排查 |
+| [`references/IMAGE-GENERATION.md`](references/IMAGE-GENERATION.md) | 使用 GPT Image 2 生图时 | asset-plan / image-prompts / APIMart 脚本 / manifest 流程 |
 | [`references/RECORDING.md`](references/RECORDING.md) | Phase 4 才读 | 录屏工具 + 后期合成 |
 | [`themes/`](themes) | Checkpoint Plan / Phase 1.2 时翻 | 内置主题（每个含 `theme.json` + `tokens.css`） |
 | [`scripts/scaffold.sh`](scripts/scaffold.sh) | Phase 2.1 跑一次 | 一键项目脚手架 |

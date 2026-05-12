@@ -19,6 +19,7 @@ It is designed for:
 - Building product demos, tutorials, keynote-style explainers, and visual talks
 - Creating “dynamic PPT, but not PPT” experiences with strong motion and pacing
 - Optionally synthesizing narration audio after the visual outline is approved
+- Batch-generating cover images, chapter illustrations, and infographics with APIMart GPT Image 2
 
 The skill is primarily a **methodology and collaboration workflow**. The scaffold supplies reusable tokens, stage primitives, themes, and examples, but each project should still choose a visual language that fits the topic.
 
@@ -74,6 +75,7 @@ skills/web-video-presentation/
 │   ├── SCRIPT-STYLE.md
 │   ├── THEMES.md
 │   ├── AUDIO.md
+│   ├── IMAGE-GENERATION.md
 │   └── RECORDING.md
 ├── scripts/
 │   └── scaffold.sh
@@ -111,6 +113,40 @@ The generated `presentation/` project is a normal Vite + React + TypeScript app.
 
 ---
 
+## GPT Image 2
+
+The scaffolded project includes:
+
+```text
+asset-plan.md
+image-prompts.md
+image-manifest.json
+scripts/generate-images.mjs
+```
+
+Recommended flow:
+
+```bash
+npm run generate-images -- --dry-run
+cp .env.example .env
+npm run generate-images
+```
+
+Default APIMart GPT Image 2 payload:
+
+```json
+{
+  "model": "gpt-image-2",
+  "n": 1,
+  "size": "16:9",
+  "resolution": "2k"
+}
+```
+
+See [IMAGE-GENERATION.md](./references/IMAGE-GENERATION.md) for the full flow.
+
+---
+
 ## Built-In Theme Directions
 
 The skill includes multiple theme families, each with its own visual DNA rather than a simple color swap:
@@ -138,5 +174,6 @@ See [THEMES.md](./references/THEMES.md) for the full token contract and theme gu
 - [SCRIPT-STYLE.md](./references/SCRIPT-STYLE.md) — article-to-narration rewrite guidance
 - [PATTERNS.md](./references/PATTERNS.md) — optional visual primitive recipes
 - [AUDIO.md](./references/AUDIO.md) — optional narration synthesis workflow
+- [IMAGE-GENERATION.md](./references/IMAGE-GENERATION.md) — APIMart GPT Image 2 asset workflow
 - [RECORDING.md](./references/RECORDING.md) — screen recording and post-production notes
 

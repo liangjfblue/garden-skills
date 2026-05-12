@@ -114,10 +114,16 @@ rmdir src/assets 2>/dev/null || true
 mkdir -p \
   src/styles src/hooks src/components src/registry \
   src/chapters/01-example \
-  public scripts
+  public scripts \
+  assets/cover assets/chapters assets/references assets/prompts
 
 cp "$TEMPLATES/vite.config.ts" .
 cp "$TEMPLATES/index.html" .
+cp "$TEMPLATES/gitignore" .gitignore
+cp "$TEMPLATES/.env.example" .env.example
+cp "$TEMPLATES/asset-plan.md" .
+cp "$TEMPLATES/image-prompts.md" .
+cp "$TEMPLATES/image-manifest.json" .
 
 cp "$TEMPLATES/src/main.tsx" src/main.tsx
 cp "$TEMPLATES/src/App.tsx"  src/App.tsx
@@ -154,6 +160,10 @@ cp "$TEMPLATES/scripts/extract-narrations.ts"  scripts/extract-narrations.ts
 cp "$TEMPLATES/scripts/synthesize-audio.sh"    scripts/synthesize-audio.sh
 chmod +x scripts/synthesize-audio.sh
 
+# Image pipeline scripts (asset plan -> prompts -> APIMart GPT Image 2).
+cp "$TEMPLATES/scripts/generate-images.mjs"       scripts/generate-images.mjs
+cp "$TEMPLATES/scripts/generate-images.test.mjs"  scripts/generate-images.test.mjs
+
 # Wire the audio scripts into npm so contributors don't have to remember
 # the exact command. Uses node to merge into the existing package.json.
 node -e '
@@ -162,6 +172,8 @@ const p = JSON.parse(fs.readFileSync("package.json", "utf8"));
 p.scripts = Object.assign({}, p.scripts, {
   "extract-narrations": "tsx scripts/extract-narrations.ts",
   "synthesize-audio":   "bash scripts/synthesize-audio.sh",
+  "generate-images":    "node scripts/generate-images.mjs",
+  "test:images":        "node --test scripts/generate-images.test.mjs",
 });
 fs.writeFileSync("package.json", JSON.stringify(p, null, 2) + "\n");
 '
@@ -214,6 +226,18 @@ cat <<EOF
   npm run extract-narrations    # 扫所有章节 narrations.ts → audio-segments.json
   npm run synthesize-audio      # 调 mmx-cli 合成 → public/audio/<id>/<step>.mp3
                                 # （没装 mmx 见 references/AUDIO.md）
+
+图片生成（可选，章节开发前做）：
+
+  1. 编辑 asset-plan.md       # 先确认每章需要什么图
+  2. 编辑 image-prompts.md    # 每个 ## <asset-id> 是一个素材 prompt
+  3. cp .env.example .env，然后填 APIMART_API_KEY
+  4. npm run generate-images  # 调 APIMart GPT Image 2，写入 assets/ 和 image-manifest.json
+
+  常用：
+    npm run generate-images -- --dry-run
+    npm run generate-images -- --id=01-hook-cover
+    npm run generate-images -- --force
 
 写章节时必读（单一入口，路径在 SKILL 仓库内）：
 
