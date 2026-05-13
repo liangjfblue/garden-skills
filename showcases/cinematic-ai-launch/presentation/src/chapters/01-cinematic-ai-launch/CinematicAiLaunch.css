@@ -1,0 +1,25 @@
+.cal-scene {
+  color: var(--text);
+}
+
+.cal-kicker {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.cal-temp-title {
+  margin: 220px 0 24px;
+  font-family: var(--font-display-en);
+  font-size: 128px;
+  line-height: 1;
+}
+
+.cal-temp-copy {
+  max-width: 680px;
+  color: var(--text-2);
+  font-family: var(--font-body);
+  font-size: 32px;
+  line-height: 1.4;
+}
