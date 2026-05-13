@@ -33,7 +33,7 @@ function indexed(index: number): IndexedStyle {
 function playCue(id: (typeof cues)[number]) {
   if (typeof window === "undefined") return;
   const audio = new Audio(`${import.meta.env.BASE_URL}sfx/${id}.wav`);
-  audio.volume = id === "low-hit" || id === "lock" ? 0.28 : 0.2;
+  audio.volume = id === "low-hit" || id === "lock" ? 0.16 : 0.1;
   audio.play().catch(() => {});
 }
 
@@ -175,6 +175,11 @@ function StepFive() {
   return (
     <section className="cal-scene cal-step-five">
       <FrameLabel step={4} label="beats become motion" />
+      <div className="cal-motion-core" aria-hidden>
+        <span />
+        <span />
+        <span />
+      </div>
       <div className="cal-motion-grid">
         {motionCards.map(([title, caption], index) => (
           <div className="cal-motion-card card" key={title} style={indexed(index)}>
@@ -198,6 +203,7 @@ function StepSix() {
   return (
     <section className="cal-scene cal-step-six">
       <FrameLabel step={5} label="sound locks frame" />
+      <div className="cal-sync-sweep" aria-hidden />
       <div className="cal-audio-board">
         <div className="cal-wave" aria-hidden>
           {Array.from({ length: 36 }).map((_, index) => (
@@ -224,6 +230,7 @@ function StepSeven() {
       <FrameLabel step={6} label="one-take recording" />
       <div className="cal-record-frame">
         <div className="cal-rec-dot" />
+        <div className="cal-scanline" aria-hidden />
         <span className="label-mono">REC · ?auto=1</span>
         <div className="cal-rec-stage">
           <strong>1920 x 1080</strong>
@@ -281,5 +288,16 @@ export default function CinematicAiLaunch({ step }: ChapterStepProps) {
     playCue(cues[safeStep]);
   }, [safeStep]);
 
-  return <div className={`cal-root cal-step-${safeStep}`}>{scenes[safeStep]}</div>;
+  return (
+    <div className={`cal-root cal-step-${safeStep}`}>
+      <div className="cal-continuity-spine" aria-hidden>
+        <i />
+        <i />
+      </div>
+      <div className="cal-signal-packet" aria-hidden>
+        <span />
+      </div>
+      {scenes[safeStep]}
+    </div>
+  );
 }

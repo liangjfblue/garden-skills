@@ -21,10 +21,78 @@
   pointer-events: none;
 }
 
+.cal-continuity-spine {
+  position: absolute;
+  left: 108px;
+  right: 108px;
+  top: 50%;
+  height: 1px;
+  z-index: 1;
+  pointer-events: none;
+  opacity: .55;
+}
+
+.cal-continuity-spine i:first-child {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: linear-gradient(90deg, transparent, var(--rule), var(--accent), var(--rule), transparent);
+  transform-origin: left center;
+  animation: cal-spine-open 900ms ease-out both;
+}
+
+.cal-continuity-spine i:last-child {
+  position: absolute;
+  left: calc(var(--spine-progress, 0%) - 7px);
+  top: -7px;
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 28px var(--accent-glow);
+  transition: left 700ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.cal-signal-packet {
+  position: absolute;
+  left: calc(108px + (100% - 216px) * var(--packet-x, .03));
+  top: calc(50% - 21px + var(--packet-y, 0px));
+  z-index: 2;
+  width: 42px;
+  height: 42px;
+  pointer-events: none;
+  transition:
+    left 700ms cubic-bezier(.2, .8, .2, 1),
+    top 700ms cubic-bezier(.2, .8, .2, 1),
+    transform 700ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.cal-signal-packet span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 0 42px var(--accent-glow);
+  transform: rotate(45deg);
+  animation: cal-packet-breathe 900ms ease-in-out infinite alternate;
+}
+
+.cal-step-0 { --spine-progress: 10%; --packet-x: .08; --packet-y: -230px; }
+.cal-step-1 { --spine-progress: 22%; --packet-x: .22; --packet-y: 210px; }
+.cal-step-2 { --spine-progress: 36%; --packet-x: .36; --packet-y: -28px; }
+.cal-step-3 { --spine-progress: 50%; --packet-x: .50; --packet-y: 120px; }
+.cal-step-4 { --spine-progress: 64%; --packet-x: .64; --packet-y: -170px; }
+.cal-step-5 { --spine-progress: 76%; --packet-x: .76; --packet-y: 90px; }
+.cal-step-6 { --spine-progress: 88%; --packet-x: .88; --packet-y: -40px; }
+.cal-step-7 { --spine-progress: 98%; --packet-x: .98; --packet-y: 175px; }
+
 .cal-scene {
   position: relative;
   padding: var(--stage-pad-y) var(--stage-pad-x);
   box-sizing: border-box;
+  z-index: 3;
 }
 
 .cal-frame-label {
@@ -333,10 +401,36 @@
   gap: 64px;
 }
 
+.cal-motion-core {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 560px;
+  height: 560px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: .8;
+}
+
+.cal-motion-core span {
+  position: absolute;
+  inset: calc(var(--i) * 82px);
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  opacity: .36;
+  animation: cal-orbit 2200ms linear infinite;
+}
+
+.cal-motion-core span:nth-child(1) { --i: 0; }
+.cal-motion-core span:nth-child(2) { --i: 1; animation-direction: reverse; }
+.cal-motion-core span:nth-child(3) { --i: 2; animation-duration: 1500ms; }
+
 .cal-motion-grid {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
+  z-index: 2;
 }
 
 .cal-motion-card {
@@ -413,10 +507,25 @@
   gap: 70px;
 }
 
+.cal-sync-sweep {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  top: 180px;
+  height: 620px;
+  background: linear-gradient(90deg, transparent, var(--accent-soft), transparent);
+  filter: blur(8px);
+  transform: translateX(-45%) skewX(-12deg);
+  animation: cal-sweep 1600ms ease-out forwards;
+  pointer-events: none;
+}
+
 .cal-audio-board {
+  position: relative;
   padding: 54px;
   border: 1px solid var(--rule);
   background: var(--surface-2);
+  z-index: 2;
 }
 
 .cal-wave {
@@ -480,6 +589,17 @@
   border: 3px solid var(--accent);
   box-shadow: 0 0 70px var(--accent-glow), inset 0 0 90px rgba(0,0,0,.28);
   animation: cal-record 900ms ease-out forwards;
+}
+
+.cal-scanline {
+  position: absolute;
+  left: 90px;
+  right: 90px;
+  top: 110px;
+  height: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 32px var(--accent-glow);
+  animation: cal-scan 1800ms ease-in-out infinite alternate;
 }
 
 .cal-record-frame > .label-mono {
@@ -583,10 +703,34 @@
   100% { transform: scale(1.9); opacity: 0; }
 }
 
+@keyframes cal-spine-open {
+  from { transform: scaleX(.08); opacity: 0; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+
+@keyframes cal-packet-breathe {
+  from { transform: rotate(45deg) scale(.82); opacity: .62; }
+  to { transform: rotate(45deg) scale(1.05); opacity: 1; }
+}
+
 @keyframes cal-file-drop {
   0% { transform: translate(-50%, -180%) rotate(-14deg); opacity: 0; }
   80% { transform: translate(-50%, -50%) rotate(-7deg); opacity: 1; }
   100% { transform: translate(-50%, -52%) rotate(-7deg); opacity: 1; }
+}
+
+@keyframes cal-orbit {
+  from { transform: rotate(0deg) scale(.96); }
+  to { transform: rotate(360deg) scale(1.04); }
+}
+
+@keyframes cal-sweep {
+  to { transform: translateX(45%) skewX(-12deg); opacity: 0; }
+}
+
+@keyframes cal-scan {
+  from { transform: translateY(0); opacity: .55; }
+  to { transform: translateY(470px); opacity: .95; }
 }
 
 @keyframes cal-fragment {
