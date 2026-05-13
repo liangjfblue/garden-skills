@@ -1,13 +1,16 @@
-.cal-root,
-.cal-scene {
-  width: 100%;
-  height: 100%;
-  color: var(--text);
-}
-
 .cal-root {
   position: relative;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
+  color: var(--text);
+  background: var(--shell);
+  --packet-x: 260px;
+  --packet-y: 255px;
+  --lens-x: 250px;
+  --lens-y: 260px;
+  --lens-w: 420px;
+  --lens-h: 350px;
 }
 
 .cal-root::before {
@@ -15,57 +18,236 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 45%, var(--accent-soft), transparent 32%),
-    linear-gradient(110deg, transparent 0 52%, rgba(255,255,255,0.035) 52% 52.4%, transparent 52.4%);
-  opacity: 0.8;
+    radial-gradient(circle at 50% 46%, var(--accent-soft), transparent 34%),
+    linear-gradient(110deg, transparent 0 52%, rgba(255,255,255,0.012) 52% 52.25%, transparent 52.25%);
+  opacity: 0.56;
   pointer-events: none;
 }
 
-.cal-continuity-spine {
+.cal-root::after {
+  content: "";
   position: absolute;
-  left: 108px;
-  right: 108px;
-  top: 50%;
-  height: 1px;
-  z-index: 1;
+  inset: 94px 116px 82px;
+  border: 1px solid var(--rule);
+  opacity: .65;
   pointer-events: none;
-  opacity: .55;
 }
 
-.cal-continuity-spine i:first-child {
-  position: absolute;
-  inset: 0;
-  display: block;
-  background: linear-gradient(90deg, transparent, var(--rule), var(--accent), var(--rule), transparent);
-  transform-origin: left center;
-  animation: cal-spine-open 900ms ease-out both;
+.cal-step-0 {
+  --packet-x: 354px;
+  --packet-y: 296px;
+  --lens-x: 190px;
+  --lens-y: 164px;
+  --lens-w: 610px;
+  --lens-h: 410px;
+  --zoom-from-x: -420px;
+  --zoom-from-y: -220px;
+  --zoom-x: 980px;
+  --zoom-y: 288px;
+  --zoom-scale: 1.16;
+  --zoom-origin: left top;
 }
 
-.cal-continuity-spine i:last-child {
+.cal-step-1 {
+  --packet-x: 1046px;
+  --packet-y: 296px;
+  --lens-x: 876px;
+  --lens-y: 164px;
+  --lens-w: 612px;
+  --lens-h: 410px;
+  --zoom-from-x: 360px;
+  --zoom-from-y: -220px;
+  --zoom-x: 370px;
+  --zoom-y: 286px;
+  --zoom-scale: 1.16;
+  --zoom-origin: right top;
+}
+
+.cal-step-2 {
+  --packet-x: 580px;
+  --packet-y: 752px;
+  --lens-x: 190px;
+  --lens-y: 616px;
+  --lens-w: 856px;
+  --lens-h: 332px;
+  --zoom-from-x: -420px;
+  --zoom-from-y: 245px;
+  --zoom-x: 1016px;
+  --zoom-y: 658px;
+  --zoom-scale: 1.16;
+  --zoom-origin: left bottom;
+}
+
+.cal-step-3 {
+  --packet-x: 1260px;
+  --packet-y: 752px;
+  --lens-x: 1078px;
+  --lens-y: 616px;
+  --lens-w: 650px;
+  --lens-h: 332px;
+  --zoom-from-x: 360px;
+  --zoom-from-y: 245px;
+  --zoom-x: 370px;
+  --zoom-y: 658px;
+  --zoom-scale: 1.16;
+  --zoom-origin: right bottom;
+}
+
+.cal-step-4 {
+  --packet-x: 870px;
+  --packet-y: 292px;
+  --lens-x: 190px;
+  --lens-y: 164px;
+  --lens-w: 770px;
+  --lens-h: 486px;
+  --zoom-from-x: -420px;
+  --zoom-from-y: -220px;
+  --zoom-x: 1000px;
+  --zoom-y: 290px;
+  --zoom-scale: 1.14;
+  --zoom-origin: left top;
+}
+
+.cal-step-5 {
+  --packet-x: 1584px;
+  --packet-y: 338px;
+  --lens-x: 990px;
+  --lens-y: 164px;
+  --lens-w: 738px;
+  --lens-h: 486px;
+  --zoom-from-x: 360px;
+  --zoom-from-y: -220px;
+  --zoom-x: 370px;
+  --zoom-y: 290px;
+  --zoom-scale: 1.14;
+  --zoom-origin: right top;
+}
+
+.cal-step-6 {
+  --packet-x: 852px;
+  --packet-y: 734px;
+  --lens-x: 190px;
+  --lens-y: 680px;
+  --lens-w: 770px;
+  --lens-h: 268px;
+  --zoom-from-x: -420px;
+  --zoom-from-y: 250px;
+  --zoom-x: 1000px;
+  --zoom-y: 652px;
+  --zoom-scale: 1.16;
+  --zoom-origin: left bottom;
+}
+
+.cal-step-7 {
+  --packet-x: 1600px;
+  --packet-y: 742px;
+  --lens-x: 990px;
+  --lens-y: 680px;
+  --lens-w: 738px;
+  --lens-h: 268px;
+  --zoom-from-x: 360px;
+  --zoom-from-y: 250px;
+  --zoom-x: 370px;
+  --zoom-y: 652px;
+  --zoom-scale: 1.16;
+  --zoom-origin: right bottom;
+}
+
+.cal-frame-label {
   position: absolute;
-  left: calc(var(--spine-progress, 0%) - 7px);
-  top: -7px;
-  display: block;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 28px var(--accent-glow);
-  transition: left 700ms cubic-bezier(.2, .8, .2, 1);
+  top: 54px;
+  left: 140px;
+  right: 140px;
+  z-index: 12;
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.cal-kicker {
+  margin: 0;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.cal-workbench {
+  position: absolute;
+  inset: 108px 132px 92px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: 470px 1fr;
+  gap: 28px;
+  z-index: 3;
+}
+
+.cal-zone {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--surface-2) 62%, transparent);
+  opacity: .2;
+  filter: saturate(.48) brightness(.78);
+  transform: scale(.982);
+  transition:
+    opacity 520ms ease,
+    filter 520ms ease,
+    border-color 520ms ease,
+    box-shadow 520ms ease,
+    transform 520ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.cal-zone.is-complete {
+  opacity: .48;
+  filter: saturate(.66) brightness(.86);
+}
+
+.cal-zone.is-active {
+  z-index: 8;
+  opacity: 1;
+  filter: saturate(1);
+  border-color: var(--accent);
+  box-shadow: 0 0 52px var(--accent-glow);
+}
+
+.cal-zone:not(.is-active) .cal-kicker,
+.cal-zone:not(.is-active) h1,
+.cal-zone:not(.is-active) h2,
+.cal-zone:not(.is-active) p,
+.cal-zone:not(.is-active) strong,
+.cal-zone:not(.is-active) .label-mono {
+  opacity: .4;
+}
+
+.cal-zone:not(.is-active):not(.is-complete) .cal-kicker,
+.cal-zone:not(.is-active):not(.is-complete) h1,
+.cal-zone:not(.is-active):not(.is-complete) h2,
+.cal-zone:not(.is-active):not(.is-complete) p,
+.cal-zone:not(.is-active):not(.is-complete) strong,
+.cal-zone:not(.is-active):not(.is-complete) .label-mono {
+  opacity: .18;
+}
+
+.cal-focus-lens {
+  display: none;
 }
 
 .cal-signal-packet {
   position: absolute;
-  left: calc(108px + (100% - 216px) * var(--packet-x, .03));
-  top: calc(50% - 21px + var(--packet-y, 0px));
-  z-index: 2;
-  width: 42px;
-  height: 42px;
+  left: var(--packet-x);
+  top: var(--packet-y);
+  z-index: 9;
+  width: 34px;
+  height: 34px;
   pointer-events: none;
   transition:
-    left 700ms cubic-bezier(.2, .8, .2, 1),
-    top 700ms cubic-bezier(.2, .8, .2, 1),
-    transform 700ms cubic-bezier(.2, .8, .2, 1);
+    left 650ms cubic-bezier(.2, .8, .2, 1),
+    top 650ms cubic-bezier(.2, .8, .2, 1);
 }
 
 .cal-signal-packet span {
@@ -79,85 +261,135 @@
   animation: cal-packet-breathe 900ms ease-in-out infinite alternate;
 }
 
-.cal-step-0 { --spine-progress: 10%; --packet-x: .08; --packet-y: -230px; }
-.cal-step-1 { --spine-progress: 22%; --packet-x: .22; --packet-y: 210px; }
-.cal-step-2 { --spine-progress: 36%; --packet-x: .36; --packet-y: -28px; }
-.cal-step-3 { --spine-progress: 50%; --packet-x: .50; --packet-y: 120px; }
-.cal-step-4 { --spine-progress: 64%; --packet-x: .64; --packet-y: -170px; }
-.cal-step-5 { --spine-progress: 76%; --packet-x: .76; --packet-y: 90px; }
-.cal-step-6 { --spine-progress: 88%; --packet-x: .88; --packet-y: -40px; }
-.cal-step-7 { --spine-progress: 98%; --packet-x: .98; --packet-y: 175px; }
-
-.cal-scene {
-  position: relative;
-  padding: var(--stage-pad-y) var(--stage-pad-x);
-  box-sizing: border-box;
-  z-index: 3;
-}
-
-.cal-frame-label {
+.cal-center-focus {
   position: absolute;
-  top: 72px;
-  left: var(--stage-pad-x);
-  right: var(--stage-pad-x);
-  display: flex;
-  justify-content: space-between;
-  color: var(--text-mute);
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  z-index: 10;
+  left: 50%;
+  top: 50%;
+  z-index: 11;
+  width: 980px;
+  min-height: 520px;
+  padding: 58px 66px;
+  border: 1px solid var(--accent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--surface-3) 95%, transparent), var(--surface-2));
+  box-shadow: 0 0 58px var(--accent-glow), 0 30px 90px rgba(0,0,0,.45);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) translate(var(--zoom-from-x), var(--zoom-from-y)) scale(.42);
+  animation: cal-center-focus 760ms cubic-bezier(.19, 1, .22, 1) 1s forwards;
 }
 
-.cal-kicker {
-  margin: 0;
-  color: var(--accent);
-  font-family: var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
+.cal-center-focus strong {
+  display: block;
+  margin-top: 28px;
+  font-family: var(--font-display-en);
+  font-size: 118px;
+  line-height: .92;
+  letter-spacing: 0;
 }
 
-.cal-step-one {
-  display: grid;
-  place-items: center;
+.cal-center-focus p {
+  margin: 34px 0 0;
+  max-width: 760px;
+  color: var(--text-2);
+  font-family: var(--font-body);
+  font-size: 32px;
+  line-height: 1.35;
+}
+
+.cal-system-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.cal-system-lines path {
+  fill: none;
+  stroke: var(--rule);
+  stroke-width: 2;
+  stroke-dasharray: 8 14;
+  opacity: 0;
+  transition: stroke 420ms ease, opacity 420ms ease, stroke-dashoffset 700ms ease;
+}
+
+.cal-system-lines path.is-lit {
+  stroke: var(--accent);
+  opacity: .38;
+  stroke-dashoffset: -80;
+}
+
+.cal-step-4 .cal-system-lines path,
+.cal-step-5 .cal-system-lines path,
+.cal-step-6 .cal-system-lines path,
+.cal-step-7 .cal-system-lines path {
+  opacity: 0;
+}
+
+.cal-step-4 .cal-system-lines path:nth-child(n + 4).is-lit,
+.cal-step-5 .cal-system-lines path:nth-child(n + 4).is-lit,
+.cal-step-6 .cal-system-lines path:nth-child(n + 4).is-lit,
+.cal-step-7 .cal-system-lines path:nth-child(n + 4).is-lit {
+  opacity: .38;
+}
+
+.cal-source-zone {
+  padding: 46px;
 }
 
 .cal-impact-ring {
   position: absolute;
-  width: 520px;
-  height: 520px;
+  left: 108px;
+  top: 72px;
+  width: 260px;
+  height: 260px;
   border: 1px solid var(--accent);
   border-radius: 50%;
   opacity: 0;
+}
+
+.cal-source-zone.is-active .cal-impact-ring {
   animation: cal-ring 1200ms ease-out forwards;
 }
 
 .cal-article-file {
   position: absolute;
-  width: 270px;
-  height: 340px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -52%) rotate(-7deg);
-  background: var(--surface-2);
+  left: 64px;
+  top: 72px;
+  width: 210px;
+  height: 260px;
+  background: var(--surface-3);
   border: 1px solid var(--rule);
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
-  animation: cal-file-drop 900ms cubic-bezier(.2, .9, .2, 1) forwards;
+  box-shadow: 0 26px 70px rgba(0,0,0,.35);
+  transform: rotate(-7deg);
+  transition: transform 520ms ease, border-color 520ms ease;
+}
+
+.cal-source-zone.is-active .cal-article-file,
+.cal-source-zone.is-complete .cal-article-file {
+  border-color: var(--accent);
+}
+
+.cal-source-zone.is-active .cal-article-file {
+  animation: cal-file-drop 900ms cubic-bezier(.2, .9, .2, 1) both;
 }
 
 .cal-file-top {
-  padding: 22px 26px;
+  padding: 16px 18px;
   color: var(--accent);
   border-bottom: 1px solid var(--rule);
 }
 
 .cal-file-lines {
-  padding: 28px 26px;
+  padding: 22px 18px;
 }
 
 .cal-file-lines i {
   display: block;
-  height: 10px;
-  margin-bottom: 18px;
+  height: 8px;
+  margin-bottom: 14px;
   background: var(--text-faint);
 }
 
@@ -167,56 +399,31 @@
 .cal-file-lines i:nth-child(4) { width: 48%; }
 .cal-file-lines i:nth-child(5) { width: 66%; }
 
-.cal-fragments span {
+.cal-source-copy {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  font-family: var(--font-mono);
-  color: var(--text-mute);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  transform: translate(-50%, -50%) scale(.7);
-  animation: cal-fragment 1200ms cubic-bezier(.2, .8, .2, 1) forwards;
-  animation-delay: calc(var(--i) * 48ms + 260ms);
-  opacity: 0;
+  left: 330px;
+  right: 56px;
+  bottom: 56px;
 }
 
-.cal-fragments span:nth-child(1) { --tx: -720px; --ty: -260px; --rot: -19deg; }
-.cal-fragments span:nth-child(2) { --tx: -410px; --ty: -340px; --rot: 8deg; }
-.cal-fragments span:nth-child(3) { --tx: 260px; --ty: -310px; --rot: -7deg; }
-.cal-fragments span:nth-child(4) { --tx: 620px; --ty: -190px; --rot: 16deg; }
-.cal-fragments span:nth-child(5) { --tx: -650px; --ty: 190px; --rot: 11deg; }
-.cal-fragments span:nth-child(6) { --tx: -280px; --ty: 320px; --rot: -13deg; }
-.cal-fragments span:nth-child(7) { --tx: 310px; --ty: 290px; --rot: 6deg; }
-.cal-fragments span:nth-child(8) { --tx: 690px; --ty: 170px; --rot: -11deg; }
-
-.cal-hero-lockup {
-  position: absolute;
-  left: var(--stage-pad-x);
-  bottom: 120px;
-}
-
-.cal-hero-lockup h1 {
-  margin: 18px 0 18px;
+.cal-source-copy h1 {
   display: flex;
   flex-direction: column;
+  margin: 14px 0 14px;
   font-family: var(--font-display-en);
-  font-size: 132px;
+  font-size: 74px;
   line-height: .92;
   letter-spacing: 0;
 }
 
-.cal-hero-lockup p:last-child {
+.cal-source-copy p:last-child {
   margin: 0;
   color: var(--text-2);
-  font-size: 34px;
+  font-size: 22px;
 }
 
-.cal-step-two {
-  display: grid;
-  grid-template-columns: 1fr 520px;
-  align-items: center;
-  gap: 80px;
+.cal-workflow-zone {
+  padding: 44px;
 }
 
 .cal-tangle {
@@ -224,7 +431,6 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
 }
 
 .cal-tangle path {
@@ -232,30 +438,48 @@
   stroke: var(--accent);
   stroke-width: 2;
   stroke-dasharray: 10 16;
-  opacity: 0.45;
+  opacity: .2;
   stroke-dashoffset: 520;
+}
+
+.cal-workflow-zone.is-active .cal-tangle path {
+  opacity: .56;
   animation: cal-draw 1400ms ease-out forwards;
 }
 
-.cal-islands {
+.cal-workflow-zone h2 {
   position: relative;
-  height: 650px;
+  max-width: 460px;
+  margin: 12px 0 0;
+  font-family: var(--font-display-en);
+  font-size: 58px;
+  line-height: 1;
+}
+
+.cal-islands {
+  position: absolute;
+  inset: 148px 44px 36px;
 }
 
 .cal-island {
   position: absolute;
-  width: 230px;
-  padding: 26px;
-  animation: cal-island 900ms cubic-bezier(.2, .8, .2, 1) forwards;
-  animation-delay: calc(var(--i) * 90ms);
-  opacity: 0;
+  width: 150px;
+  padding: 18px;
+  opacity: .48;
+  transition: opacity 420ms ease, transform 420ms ease;
 }
 
-.cal-island:nth-child(1) { left: 70px; top: 70px; }
-.cal-island:nth-child(2) { left: 420px; top: 30px; }
-.cal-island:nth-child(3) { left: 250px; top: 270px; }
-.cal-island:nth-child(4) { left: 640px; top: 310px; }
-.cal-island:nth-child(5) { left: 120px; top: 520px; }
+.cal-workflow-zone.is-active .cal-island {
+  opacity: 1;
+  animation: cal-island 760ms cubic-bezier(.2, .8, .2, 1) both;
+  animation-delay: calc(var(--i) * 70ms);
+}
+
+.cal-island:nth-child(1) { left: 0; top: 8px; }
+.cal-island:nth-child(2) { left: 236px; top: 0; }
+.cal-island:nth-child(3) { left: 118px; top: 108px; }
+.cal-island:nth-child(4) { left: 306px; top: 174px; }
+.cal-island:nth-child(5) { left: 20px; top: 230px; }
 
 .cal-island span,
 .cal-island strong {
@@ -263,71 +487,57 @@
 }
 
 .cal-island strong {
-  margin-top: 16px;
+  margin-top: 8px;
   font-family: var(--font-display-en);
-  font-size: 42px;
+  font-size: 28px;
 }
 
-.cal-side-copy h2,
-.cal-statement,
-.cal-motion-title,
-.cal-step-six h2,
-.cal-final-copy h2 {
-  margin: 18px 0 0;
-  font-family: var(--font-display-en);
-  font-size: 82px;
-  line-height: 1;
-  max-width: 900px;
-}
-
-.cal-step-three {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.cal-pipeline {
-  position: relative;
-  height: 360px;
+.cal-pipeline-zone {
+  padding: 38px;
 }
 
 .cal-pipeline-source {
   position: absolute;
-  left: 0;
-  top: 112px;
-  width: 250px;
-  padding: 28px;
-  z-index: 2;
+  left: 38px;
+  top: 94px;
+  width: 190px;
+  padding: 22px;
 }
 
 .cal-pipeline-source strong {
   display: block;
-  margin-top: 14px;
-  font-size: 38px;
+  margin-top: 12px;
+  font-size: 30px;
 }
 
-.cal-pipe-line {
+.cal-pipeline-track {
   position: absolute;
-  left: 270px;
-  top: 90px;
-  width: 1160px;
-  height: 180px;
+  left: 260px;
+  right: 54px;
+  top: 150px;
+  height: 3px;
+  background: var(--rule);
 }
 
-.cal-pipe-line path {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 4;
-  stroke-dasharray: 1120;
-  stroke-dashoffset: 1120;
-  animation: cal-draw 1600ms ease-out forwards;
+.cal-pipeline-track i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  box-shadow: 0 0 30px var(--accent-glow);
+}
+
+.cal-pipeline-zone.is-active .cal-pipeline-track i,
+.cal-pipeline-zone.is-complete .cal-pipeline-track i {
+  width: 100%;
+  transition: width 900ms ease-out;
 }
 
 .cal-pipeline-nodes {
   position: absolute;
-  left: 330px;
-  right: 40px;
-  top: 100px;
+  left: 300px;
+  right: 68px;
+  top: 109px;
   display: flex;
   justify-content: space-between;
 }
@@ -335,18 +545,23 @@
 .cal-node {
   display: grid;
   justify-items: center;
-  gap: 22px;
-  opacity: 0;
-  animation: cal-node 700ms ease-out forwards;
-  animation-delay: calc(var(--i) * 160ms + 300ms);
+  gap: 12px;
+  opacity: .35;
+}
+
+.cal-pipeline-zone.is-active .cal-node,
+.cal-pipeline-zone.is-complete .cal-node {
+  opacity: 1;
+  animation: cal-node 640ms ease-out both;
+  animation-delay: calc(var(--i) * 120ms + 160ms);
 }
 
 .cal-node span {
-  width: 42px;
-  height: 42px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 44px var(--accent-glow);
+  box-shadow: 0 0 34px var(--accent-glow);
 }
 
 .cal-node strong {
@@ -354,67 +569,84 @@
   color: var(--text-2);
 }
 
-.cal-step-four {
+.cal-pipeline-zone h2 {
+  position: absolute;
+  left: 38px;
+  bottom: 38px;
+  max-width: 700px;
+  margin: 0;
+  font-family: var(--font-display-en);
+  font-size: 50px;
+  line-height: 1;
+}
+
+.cal-script-zone {
+  padding: 30px;
   display: grid;
-  grid-template-columns: 620px 1fr;
-  gap: 80px;
-  align-items: center;
+  grid-template-columns: 270px 1fr;
+  gap: 20px;
 }
 
 .cal-script-panel {
-  padding: 38px;
+  padding: 22px;
 }
 
 .cal-script-panel p {
-  margin: 28px 0 0;
+  margin: 20px 0 0;
   color: var(--text-2);
-  font-size: 30px;
-  line-height: 1.45;
+  font-size: 19px;
+  line-height: 1.35;
 }
 
 .cal-beat-stack {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
+  gap: 12px;
 }
 
 .cal-beat {
-  padding: 24px;
+  padding: 14px;
   border: 1px solid var(--rule);
   background: var(--surface-2);
+  opacity: .32;
   transform-origin: left center;
-  animation: cal-beat 650ms cubic-bezier(.2, .8, .2, 1) forwards;
-  animation-delay: calc(var(--i) * 85ms);
-  opacity: 0;
+}
+
+.cal-script-zone.is-active .cal-beat,
+.cal-script-zone.is-complete .cal-beat {
+  opacity: 1;
+  animation: cal-beat 580ms cubic-bezier(.2, .8, .2, 1) both;
+  animation-delay: calc(var(--i) * 55ms);
 }
 
 .cal-beat strong {
   display: block;
-  margin-top: 12px;
-  font-size: 32px;
+  margin-top: 8px;
+  font-size: 22px;
 }
 
-.cal-step-five {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 64px;
+.cal-motion-zone {
+  padding: 34px;
 }
 
 .cal-motion-core {
   position: absolute;
-  left: 50%;
-  top: 45%;
-  width: 560px;
-  height: 560px;
-  transform: translate(-50%, -50%);
+  right: 28px;
+  top: 42px;
+  width: 220px;
+  height: 220px;
   pointer-events: none;
-  opacity: .8;
+  opacity: .5;
+}
+
+.cal-motion-zone.is-active .cal-motion-core,
+.cal-motion-zone.is-complete .cal-motion-core {
+  opacity: .95;
 }
 
 .cal-motion-core span {
   position: absolute;
-  inset: calc(var(--i) * 82px);
+  inset: calc(var(--i) * 34px);
   border: 1px solid var(--accent);
   border-radius: 50%;
   opacity: .36;
@@ -425,32 +657,45 @@
 .cal-motion-core span:nth-child(2) { --i: 1; animation-direction: reverse; }
 .cal-motion-core span:nth-child(3) { --i: 2; animation-duration: 1500ms; }
 
+.cal-motion-zone h2 {
+  margin: 12px 0 24px;
+  max-width: 360px;
+  font-family: var(--font-display-en);
+  font-size: 66px;
+  line-height: .96;
+}
+
 .cal-motion-grid {
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
   z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
 }
 
 .cal-motion-card {
-  min-height: 360px;
-  padding: 24px;
+  min-height: 150px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  animation: cal-card-rise 760ms ease-out forwards;
-  animation-delay: calc(var(--i) * 90ms);
-  opacity: 0;
+  opacity: .34;
+}
+
+.cal-motion-zone.is-active .cal-motion-card,
+.cal-motion-zone.is-complete .cal-motion-card {
+  opacity: 1;
+  animation: cal-card-rise 620ms ease-out both;
+  animation-delay: calc(var(--i) * 62ms);
 }
 
 .cal-motion-card strong {
-  font-size: 34px;
+  font-size: 21px;
   line-height: 1.05;
 }
 
 .cal-mini {
-  height: 110px;
+  height: 76px;
   position: relative;
   border-top: 1px solid var(--rule);
 }
@@ -462,250 +707,287 @@
 }
 
 .cal-mini-0 i {
-  width: 44px;
-  height: 8px;
-  left: calc(20px + var(--i) * 54px);
-  top: calc(30px + var(--i) * 20px);
+  width: 28px;
+  height: 6px;
+  left: calc(10px + var(--i) * 32px);
+  top: calc(24px + var(--i) * 14px);
   animation: cal-pulse 900ms ease-in-out infinite alternate;
 }
 
 .cal-mini-1 i {
-  width: 72px;
+  width: 42px;
   height: 2px;
-  left: calc(20px + var(--i) * 44px);
-  top: calc(72px - var(--i) * 18px);
+  left: calc(10px + var(--i) * 26px);
+  top: calc(52px - var(--i) * 12px);
   transform: rotate(calc(var(--i) * 18deg));
 }
 
 .cal-mini-2 i {
-  width: 34px;
-  height: 86px;
-  left: calc(28px + var(--i) * 50px);
+  width: 20px;
+  height: 54px;
+  left: calc(14px + var(--i) * 30px);
   bottom: 0;
   opacity: calc(.35 + var(--i) * .2);
 }
 
 .cal-mini-3 i {
-  height: 10px;
-  left: 20px;
-  top: calc(28px + var(--i) * 24px);
-  width: calc(60px + var(--i) * 34px);
+  height: 8px;
+  left: 12px;
+  top: calc(20px + var(--i) * 18px);
+  width: calc(34px + var(--i) * 22px);
 }
 
 .cal-mini-4 i {
-  width: 58px;
-  height: 28px;
-  left: calc(18px + var(--i) * 58px);
-  top: calc(30px + var(--i) * 16px);
-  border-radius: 4px;
+  width: 32px;
+  height: 20px;
+  left: calc(10px + var(--i) * 34px);
+  top: calc(22px + var(--i) * 10px);
+  border-radius: 3px;
 }
 
-.cal-step-six {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 70px;
+.cal-audio-zone {
+  padding: 34px;
 }
 
 .cal-sync-sweep {
   position: absolute;
-  left: -20%;
-  right: -20%;
-  top: 180px;
-  height: 620px;
+  left: -40%;
+  right: -40%;
+  top: 82px;
+  height: 220px;
   background: linear-gradient(90deg, transparent, var(--accent-soft), transparent);
   filter: blur(8px);
   transform: translateX(-45%) skewX(-12deg);
-  animation: cal-sweep 1600ms ease-out forwards;
   pointer-events: none;
+  opacity: 0;
 }
 
-.cal-audio-board {
-  position: relative;
-  padding: 54px;
-  border: 1px solid var(--rule);
-  background: var(--surface-2);
-  z-index: 2;
+.cal-audio-zone.is-active .cal-sync-sweep {
+  animation: cal-sweep 1400ms ease-out forwards;
 }
 
 .cal-wave {
-  height: 220px;
+  height: 192px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
 }
 
 .cal-wave i {
-  width: 8px;
-  height: 72px;
+  width: 5px;
+  height: 54px;
   background: var(--text-faint);
   animation: cal-wave 900ms ease-in-out infinite alternate;
   animation-delay: calc(var(--i) * 28ms);
 }
 
-.cal-wave i:nth-child(6n + 1) { height: 42px; }
-.cal-wave i:nth-child(6n + 2) { height: 118px; }
-.cal-wave i:nth-child(6n + 3) { height: 84px; }
-.cal-wave i:nth-child(6n + 4) { height: 156px; }
-.cal-wave i:nth-child(6n + 5) { height: 62px; }
-.cal-wave i:nth-child(6n + 6) { height: 132px; }
+.cal-audio-zone.is-active .cal-wave i,
+.cal-audio-zone.is-complete .cal-wave i {
+  background: var(--accent);
+}
+
+.cal-wave i:nth-child(6n + 1) { height: 32px; }
+.cal-wave i:nth-child(6n + 2) { height: 86px; }
+.cal-wave i:nth-child(6n + 3) { height: 62px; }
+.cal-wave i:nth-child(6n + 4) { height: 112px; }
+.cal-wave i:nth-child(6n + 5) { height: 44px; }
+.cal-wave i:nth-child(6n + 6) { height: 94px; }
 
 .cal-cues {
   display: flex;
   justify-content: space-between;
+  margin-top: 18px;
 }
 
 .cal-cue {
   display: grid;
   justify-items: center;
-  gap: 14px;
-  opacity: 0;
-  animation: cal-node 600ms ease-out forwards;
-  animation-delay: calc(var(--i) * 130ms + 280ms);
+  gap: 8px;
+  opacity: .4;
+}
+
+.cal-audio-zone.is-active .cal-cue,
+.cal-audio-zone.is-complete .cal-cue {
+  opacity: 1;
+  animation: cal-node 560ms ease-out both;
+  animation-delay: calc(var(--i) * 96ms + 180ms);
 }
 
 .cal-cue span {
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   background: var(--accent);
   border-radius: 50%;
-  box-shadow: 0 0 32px var(--accent-glow);
+  box-shadow: 0 0 24px var(--accent-glow);
 }
 
 .cal-cue strong {
   font-family: var(--font-mono);
   color: var(--text-2);
+  font-size: 11px;
 }
 
-.cal-step-seven {
-  display: grid;
-  place-items: center;
+.cal-audio-zone h2 {
+  position: absolute;
+  left: 34px;
+  right: 34px;
+  bottom: 34px;
+  margin: 0;
+  font-family: var(--font-display-en);
+  font-size: 54px;
+  line-height: 1;
+}
+
+.cal-record-zone {
+  padding: 34px;
 }
 
 .cal-record-frame {
   position: relative;
-  width: 1260px;
-  height: 700px;
-  border: 3px solid var(--accent);
-  box-shadow: 0 0 70px var(--accent-glow), inset 0 0 90px rgba(0,0,0,.28);
-  animation: cal-record 900ms ease-out forwards;
+  height: 250px;
+  border: 2px solid var(--rule);
+  box-shadow: inset 0 0 52px rgba(0,0,0,.28);
 }
 
-.cal-scanline {
-  position: absolute;
-  left: 90px;
-  right: 90px;
-  top: 110px;
-  height: 2px;
-  background: var(--accent);
-  box-shadow: 0 0 32px var(--accent-glow);
-  animation: cal-scan 1800ms ease-in-out infinite alternate;
+.cal-record-zone.is-active .cal-record-frame,
+.cal-record-zone.is-complete .cal-record-frame {
+  border-color: var(--accent);
+  box-shadow: 0 0 34px var(--accent-glow), inset 0 0 52px rgba(0,0,0,.28);
+  animation: cal-record 700ms ease-out both;
 }
 
 .cal-record-frame > .label-mono {
   position: absolute;
-  top: 26px;
-  left: 68px;
+  top: 16px;
+  left: 46px;
   color: var(--accent);
 }
 
 .cal-rec-dot {
   position: absolute;
-  width: 18px;
-  height: 18px;
-  top: 31px;
-  left: 34px;
+  width: 14px;
+  height: 14px;
+  top: 19px;
+  left: 22px;
   border-radius: 50%;
   background: var(--accent);
   animation: cal-blink 700ms infinite;
 }
 
+.cal-scanline {
+  position: absolute;
+  left: 26px;
+  right: 26px;
+  top: 58px;
+  height: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 26px var(--accent-glow);
+  opacity: 0;
+}
+
+.cal-record-zone.is-active .cal-scanline {
+  opacity: 1;
+  animation: cal-scan 1500ms ease-in-out infinite alternate;
+}
+
 .cal-rec-stage {
   position: absolute;
-  inset: 110px 90px 110px;
+  inset: 58px 26px 42px;
   display: grid;
   place-items: center;
   border: 1px solid var(--rule);
 }
 
 .cal-rec-stage strong {
-  font-size: 92px;
   font-family: var(--font-display-en);
+  font-size: 42px;
 }
 
 .cal-rec-stage span {
   color: var(--text-2);
-  font-size: 28px;
+  font-size: 16px;
 }
 
 .cal-record-rail {
   position: absolute;
-  left: 300px;
-  right: 300px;
-  bottom: 112px;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
   display: flex;
   justify-content: space-between;
 }
 
 .cal-record-rail i {
-  width: 74px;
-  height: 8px;
+  width: 28px;
+  height: 5px;
   background: var(--accent);
   opacity: 0;
-  animation: cal-rail 900ms ease-out forwards;
-  animation-delay: calc(var(--i) * 90ms);
 }
 
-.cal-step-eight {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 86px;
+.cal-record-zone.is-active .cal-record-rail i,
+.cal-record-zone.is-complete .cal-record-rail i {
+  animation: cal-rail 760ms ease-out forwards;
+  animation-delay: calc(var(--i) * 62ms);
+}
+
+.cal-output-zone {
+  padding: 34px;
 }
 
 .cal-final-chain {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 18px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
 }
 
 .cal-chain-item {
-  min-height: 160px;
-  padding: 28px;
+  min-height: 112px;
+  padding: 14px;
   border: 1px solid var(--rule);
   background: var(--surface-2);
-  animation: cal-card-rise 700ms ease-out forwards;
-  animation-delay: calc(var(--i) * 100ms);
-  opacity: 0;
+  opacity: .38;
+}
+
+.cal-output-zone.is-active .cal-chain-item,
+.cal-output-zone.is-complete .cal-chain-item {
+  opacity: 1;
+  animation: cal-card-rise 560ms ease-out both;
+  animation-delay: calc(var(--i) * 72ms);
 }
 
 .cal-chain-item strong {
   display: block;
-  margin-top: 24px;
-  font-size: 31px;
+  margin-top: 6px;
+  font-size: 21px;
   line-height: 1.05;
 }
 
 .cal-chain-item:last-child {
   border-color: var(--accent);
-  box-shadow: 0 0 42px var(--accent-glow);
+  box-shadow: 0 0 28px var(--accent-glow);
+}
+
+.cal-final-copy {
+  margin-top: 24px;
+}
+
+.cal-final-copy h2 {
+  margin: 10px 0 0;
+  font-family: var(--font-display-en);
+  font-size: 52px;
+  line-height: 1;
 }
 
 .cal-final-copy p:last-child {
-  margin: 24px 0 0;
+  margin: 12px 0 0;
   color: var(--text-2);
-  font-size: 34px;
+  font-size: 18px;
 }
 
 @keyframes cal-ring {
   0% { transform: scale(.4); opacity: 0; }
   25% { opacity: .8; }
-  100% { transform: scale(1.9); opacity: 0; }
-}
-
-@keyframes cal-spine-open {
-  from { transform: scaleX(.08); opacity: 0; }
-  to { transform: scaleX(1); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
 }
 
 @keyframes cal-packet-breathe {
@@ -714,31 +996,9 @@
 }
 
 @keyframes cal-file-drop {
-  0% { transform: translate(-50%, -180%) rotate(-14deg); opacity: 0; }
-  80% { transform: translate(-50%, -50%) rotate(-7deg); opacity: 1; }
-  100% { transform: translate(-50%, -52%) rotate(-7deg); opacity: 1; }
-}
-
-@keyframes cal-orbit {
-  from { transform: rotate(0deg) scale(.96); }
-  to { transform: rotate(360deg) scale(1.04); }
-}
-
-@keyframes cal-sweep {
-  to { transform: translateX(45%) skewX(-12deg); opacity: 0; }
-}
-
-@keyframes cal-scan {
-  from { transform: translateY(0); opacity: .55; }
-  to { transform: translateY(470px); opacity: .95; }
-}
-
-@keyframes cal-fragment {
-  0% { opacity: 0; transform: translate(-50%, -50%) scale(.7); }
-  100% {
-    opacity: .78;
-    transform: translate(var(--tx), var(--ty)) rotate(var(--rot));
-  }
+  0% { transform: translateY(-140px) rotate(-14deg); opacity: 0; }
+  80% { transform: translateY(0) rotate(-7deg); opacity: 1; }
+  100% { transform: translateY(0) rotate(-7deg); opacity: 1; }
 }
 
 @keyframes cal-draw {
@@ -746,28 +1006,53 @@
 }
 
 @keyframes cal-island {
-  from { opacity: 0; transform: translateY(40px) scale(.94); }
+  from { opacity: 0; transform: translateY(28px) scale(.94); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @keyframes cal-node {
-  from { opacity: 0; transform: translateY(24px) scale(.82); }
+  from { opacity: 0; transform: translateY(18px) scale(.82); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @keyframes cal-beat {
-  from { opacity: 0; transform: translateX(-44px) scaleX(.8); }
+  from { opacity: 0; transform: translateX(-24px) scaleX(.82); }
   to { opacity: 1; transform: translateX(0) scaleX(1); }
 }
 
+@keyframes cal-orbit {
+  from { transform: rotate(0deg) scale(.96); }
+  to { transform: rotate(360deg) scale(1.04); }
+}
+
 @keyframes cal-card-rise {
-  from { opacity: 0; transform: translateY(42px); }
+  from { opacity: 0; transform: translateY(26px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cal-center-focus {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate(var(--zoom-from-x), var(--zoom-from-y)) scale(.42);
+  }
+  1% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translate(0, 0) scale(1);
+  }
 }
 
 @keyframes cal-pulse {
   from { opacity: .35; transform: translateX(0); }
-  to { opacity: 1; transform: translateX(18px); }
+  to { opacity: 1; transform: translateX(12px); }
+}
+
+@keyframes cal-sweep {
+  0% { opacity: 0; transform: translateX(-45%) skewX(-12deg); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(45%) skewX(-12deg); }
 }
 
 @keyframes cal-wave {
@@ -776,13 +1061,18 @@
 }
 
 @keyframes cal-record {
-  from { transform: scale(.92); opacity: 0; }
+  from { transform: scale(.94); opacity: .5; }
   to { transform: scale(1); opacity: 1; }
 }
 
 @keyframes cal-blink {
   0%, 100% { opacity: 1; }
   50% { opacity: .28; }
+}
+
+@keyframes cal-scan {
+  from { transform: translateY(0); opacity: .55; }
+  to { transform: translateY(126px); opacity: .95; }
 }
 
 @keyframes cal-rail {

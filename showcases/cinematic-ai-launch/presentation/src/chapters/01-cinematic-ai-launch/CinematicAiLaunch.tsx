@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import type { CSSProperties } from "react";
 import type { ChapterStepProps } from "../../registry/types";
 import "./CinematicAiLaunch.css";
@@ -14,8 +14,20 @@ const cues = [
   "lock",
 ] as const;
 
-const pipeline = ["script", "outline", "motion", "audio", "record"];
+const stepLabels = [
+  "source impact",
+  "fragmented workflow",
+  "pipeline ignition",
+  "script to beats",
+  "motion treatment",
+  "sound lock",
+  "one-take record",
+  "final artifact",
+] as const;
+
 const workflow = ["script", "PPT", "assets", "voice", "edit"];
+const pipeline = ["script", "outline", "motion", "audio", "record"];
+const beats = ["hook", "friction", "pipeline", "beats", "motion", "sound", "record", "lock"];
 const motionCards = [
   ["data flow", "signals move"],
   ["path trace", "logic draws"],
@@ -23,6 +35,50 @@ const motionCards = [
   ["terminal replay", "process runs"],
   ["UI state", "screen changes"],
 ];
+const soundCues = ["hit", "tick", "whoosh", "pop", "lock"];
+const chain = ["article.md", "script.md", "motion-treatment.md", "presentation", "video.mp4"];
+const focusCards = [
+  {
+    tag: "source",
+    title: "Article In.",
+    body: "The article enters the production surface as the source object.",
+  },
+  {
+    tag: "old way",
+    title: "Fragmented Workflow",
+    body: "Script, PPT, assets, voice, and edit sit in separate islands.",
+  },
+  {
+    tag: "pipeline",
+    title: "One Path Out",
+    body: "The work becomes one route: script, outline, motion, audio, record.",
+  },
+  {
+    tag: "beats",
+    title: "Script To Beats",
+    body: "Each narration beat becomes one visual step.",
+  },
+  {
+    tag: "motion",
+    title: "Motion Treatment",
+    body: "Each beat gets a dominant action instead of a bullet.",
+  },
+  {
+    tag: "sound",
+    title: "Sound Lock",
+    body: "Quiet cues turn clicks into edit points.",
+  },
+  {
+    tag: "record",
+    title: "One Take",
+    body: "Auto mode records the browser stage cleanly.",
+  },
+  {
+    tag: "output",
+    title: "video.mp4",
+    body: "The chain resolves into a publishable video file.",
+  },
+] as const;
 
 type IndexedStyle = CSSProperties & { "--i": number };
 
@@ -37,42 +93,29 @@ function playCue(id: (typeof cues)[number]) {
   audio.play().catch(() => {});
 }
 
-function FrameLabel({ step, label }: { step: number; label: string }) {
+function zoneClass(name: string, safeStep: number, focusStep: number) {
+  return [
+    "cal-zone",
+    `cal-${name}-zone`,
+    safeStep === focusStep ? "is-active" : "",
+    safeStep > focusStep ? "is-complete" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
+
+function FrameLabel({ step }: { step: number }) {
   return (
     <div className="cal-frame-label label-mono">
       <span>0{step + 1}</span>
-      <span>{label}</span>
+      <span>{stepLabels[step]}</span>
     </div>
   );
 }
 
-function TextFragments() {
-  const fragments = [
-    "launch notes",
-    "product update",
-    "technical blog",
-    "article.md",
-    "release memo",
-    "case study",
-    "long-form idea",
-    "raw material",
-  ];
-
+function SourceZone({ safeStep }: { safeStep: number }) {
   return (
-    <div className="cal-fragments" aria-hidden>
-      {fragments.map((fragment, index) => (
-        <span key={fragment} style={indexed(index)}>
-          {fragment}
-        </span>
-      ))}
-    </div>
-  );
-}
-
-function StepOne() {
-  return (
-    <section className="cal-scene cal-step-one">
-      <FrameLabel step={0} label="cold open" />
+    <section className={zoneClass("source", safeStep, 0)}>
       <div className="cal-impact-ring" aria-hidden />
       <div className="cal-article-file">
         <div className="cal-file-top label-mono">article.md</div>
@@ -84,8 +127,7 @@ function StepOne() {
           <i />
         </div>
       </div>
-      <TextFragments />
-      <div className="cal-hero-lockup">
+      <div className="cal-source-copy">
         <p className="cal-kicker">web video presentation</p>
         <h1>
           <span>Article In.</span>
@@ -97,15 +139,16 @@ function StepOne() {
   );
 }
 
-function StepTwo() {
+function WorkflowZone({ safeStep }: { safeStep: number }) {
   return (
-    <section className="cal-scene cal-step-two">
-      <FrameLabel step={1} label="old workflow" />
-      <svg className="cal-tangle" viewBox="0 0 1920 1080" aria-hidden>
-        <path d="M360 260 C720 120 740 620 1070 490 S1380 180 1560 360" />
-        <path d="M420 800 C710 580 690 280 1010 360 S1330 810 1580 700" />
-        <path d="M290 540 C610 530 760 880 1110 720 S1390 430 1650 520" />
+    <section className={zoneClass("workflow", safeStep, 1)}>
+      <svg className="cal-tangle" viewBox="0 0 520 260" aria-hidden>
+        <path d="M32 58 C184 4 188 178 314 116 S432 24 492 88" />
+        <path d="M58 226 C168 140 182 44 300 84 S410 244 486 202" />
+        <path d="M28 150 C154 142 212 250 324 204 S430 112 500 144" />
       </svg>
+      <p className="cal-kicker">old way</p>
+      <h2>Too many tools. Too little rhythm.</h2>
       <div className="cal-islands">
         {workflow.map((item, index) => (
           <div className="cal-island card" key={item} style={indexed(index)}>
@@ -114,49 +157,39 @@ function StepTwo() {
           </div>
         ))}
       </div>
-      <div className="cal-side-copy">
-        <p className="cal-kicker">the old way</p>
-        <h2>Too many tools. Too little rhythm.</h2>
-      </div>
     </section>
   );
 }
 
-function StepThree() {
+function PipelineZone({ safeStep }: { safeStep: number }) {
   return (
-    <section className="cal-scene cal-step-three">
-      <FrameLabel step={2} label="pipeline ignition" />
-      <div className="cal-pipeline">
-        <div className="cal-pipeline-source card">
-          <span className="label-mono">input</span>
-          <strong>article.md</strong>
-        </div>
-        <svg className="cal-pipe-line" viewBox="0 0 1120 180" aria-hidden>
-          <path d="M20 90 H1100" />
-        </svg>
-        <div className="cal-pipeline-nodes">
-          {pipeline.map((node, index) => (
-            <div className="cal-node" key={node} style={indexed(index)}>
-              <span />
-              <strong>{node}</strong>
-            </div>
-          ))}
-        </div>
+    <section className={zoneClass("pipeline", safeStep, 2)}>
+      <div className="cal-pipeline-source card">
+        <span className="label-mono">input</span>
+        <strong>article.md</strong>
       </div>
-      <h2 className="cal-statement">One stage. One rhythm. One path out.</h2>
+      <div className="cal-pipeline-track" aria-hidden>
+        <i />
+      </div>
+      <div className="cal-pipeline-nodes">
+        {pipeline.map((node, index) => (
+          <div className="cal-node" key={node} style={indexed(index)}>
+            <span />
+            <strong>{node}</strong>
+          </div>
+        ))}
+      </div>
+      <h2>One stage. One rhythm. One path out.</h2>
     </section>
   );
 }
 
-function StepFour() {
-  const beats = ["hook", "friction", "pipeline", "beats", "motion", "sound", "record", "lock"];
+function ScriptZone({ safeStep }: { safeStep: number }) {
   return (
-    <section className="cal-scene cal-step-four">
-      <FrameLabel step={3} label="script to beats" />
+    <section className={zoneClass("script", safeStep, 3)}>
       <div className="cal-script-panel card">
         <span className="label-mono">script.md</span>
         <p>一篇好文章，不应该只停在页面里。</p>
-        <p>以前你想做这件事，要拆成一堆工具。</p>
         <p>真正的视频感，是每一步都在演一件事。</p>
       </div>
       <div className="cal-beat-stack">
@@ -171,15 +204,16 @@ function StepFour() {
   );
 }
 
-function StepFive() {
+function MotionZone({ safeStep }: { safeStep: number }) {
   return (
-    <section className="cal-scene cal-step-five">
-      <FrameLabel step={4} label="beats become motion" />
+    <section className={zoneClass("motion", safeStep, 4)}>
       <div className="cal-motion-core" aria-hidden>
         <span />
         <span />
         <span />
       </div>
+      <p className="cal-kicker">motion treatment</p>
+      <h2>Perform the idea.</h2>
       <div className="cal-motion-grid">
         {motionCards.map(([title, caption], index) => (
           <div className="cal-motion-card card" key={title} style={indexed(index)}>
@@ -193,45 +227,39 @@ function StepFive() {
           </div>
         ))}
       </div>
-      <h2 className="cal-motion-title">Do not show the bullet. Perform the idea.</h2>
     </section>
   );
 }
 
-function StepSix() {
-  const soundCues = ["hit", "tick", "whoosh", "pop", "lock"];
+function AudioZone({ safeStep }: { safeStep: number }) {
   return (
-    <section className="cal-scene cal-step-six">
-      <FrameLabel step={5} label="sound locks frame" />
+    <section className={zoneClass("audio", safeStep, 5)}>
       <div className="cal-sync-sweep" aria-hidden />
-      <div className="cal-audio-board">
-        <div className="cal-wave" aria-hidden>
-          {Array.from({ length: 36 }).map((_, index) => (
-            <i key={index} style={indexed(index)} />
-          ))}
-        </div>
-        <div className="cal-cues">
-          {soundCues.map((cue, index) => (
-            <div className="cal-cue" key={cue} style={indexed(index)}>
-              <span />
-              <strong>{cue}</strong>
-            </div>
-          ))}
-        </div>
+      <div className="cal-wave" aria-hidden>
+        {Array.from({ length: 28 }).map((_, index) => (
+          <i key={index} style={indexed(index)} />
+        ))}
       </div>
-      <h2>Clicks start feeling like edit points.</h2>
+      <div className="cal-cues">
+        {soundCues.map((cue, index) => (
+          <div className="cal-cue" key={cue} style={indexed(index)}>
+            <span />
+            <strong>{cue}</strong>
+          </div>
+        ))}
+      </div>
+      <h2>Clicks become edit points.</h2>
     </section>
   );
 }
 
-function StepSeven() {
+function RecordZone({ safeStep }: { safeStep: number }) {
   return (
-    <section className="cal-scene cal-step-seven">
-      <FrameLabel step={6} label="one-take recording" />
+    <section className={zoneClass("record", safeStep, 6)}>
       <div className="cal-record-frame">
         <div className="cal-rec-dot" />
-        <div className="cal-scanline" aria-hidden />
         <span className="label-mono">REC · ?auto=1</span>
+        <div className="cal-scanline" aria-hidden />
         <div className="cal-rec-stage">
           <strong>1920 x 1080</strong>
           <span>hidden chrome · one take</span>
@@ -246,11 +274,9 @@ function StepSeven() {
   );
 }
 
-function StepEight() {
-  const chain = ["article.md", "script.md", "motion-treatment.md", "presentation", "video.mp4"];
+function OutputZone({ safeStep }: { safeStep: number }) {
   return (
-    <section className="cal-scene cal-step-eight">
-      <FrameLabel step={7} label="final lockup" />
+    <section className={zoneClass("output", safeStep, 7)}>
       <div className="cal-final-chain">
         {chain.map((item, index) => (
           <div className="cal-chain-item" key={item} style={indexed(index)}>
@@ -268,21 +294,35 @@ function StepEight() {
   );
 }
 
+function CenterFocusCard({ safeStep }: { safeStep: number }) {
+  const card = focusCards[safeStep];
+
+  return (
+    <aside key={safeStep} className="cal-center-focus" aria-hidden>
+      <span className="label-mono">{card.tag}</span>
+      <strong>{card.title}</strong>
+      <p>{card.body}</p>
+    </aside>
+  );
+}
+
+function SystemLines({ safeStep }: { safeStep: number }) {
+  return (
+    <svg className="cal-system-lines" viewBox="0 0 1920 1080" aria-hidden>
+      <path className={safeStep >= 1 ? "is-lit" : ""} d="M380 268 C560 194 614 216 722 238" />
+      <path className={safeStep >= 2 ? "is-lit" : ""} d="M984 252 C1092 290 1138 344 1188 438" />
+      <path className={safeStep >= 3 ? "is-lit" : ""} d="M1194 514 C1078 600 886 610 766 694" />
+      <path className={safeStep >= 4 ? "is-lit" : ""} d="M790 790 C936 862 1106 852 1246 768" />
+      <path className={safeStep >= 5 ? "is-lit" : ""} d="M1508 734 C1580 632 1566 536 1486 446" />
+      <path className={safeStep >= 6 ? "is-lit" : ""} d="M1402 332 C1260 192 1114 160 950 196" />
+      <path className={safeStep >= 7 ? "is-lit" : ""} d="M1340 276 C1450 236 1542 252 1630 324" />
+    </svg>
+  );
+}
+
 export default function CinematicAiLaunch({ step }: ChapterStepProps) {
   const safeStep = Math.max(0, Math.min(7, step));
-  const scenes = useMemo(
-    () => [
-      <StepOne key="one" />,
-      <StepTwo key="two" />,
-      <StepThree key="three" />,
-      <StepFour key="four" />,
-      <StepFive key="five" />,
-      <StepSix key="six" />,
-      <StepSeven key="seven" />,
-      <StepEight key="eight" />,
-    ],
-    [],
-  );
+  const isBuildPage = safeStep < 4;
 
   useEffect(() => {
     playCue(cues[safeStep]);
@@ -290,14 +330,30 @@ export default function CinematicAiLaunch({ step }: ChapterStepProps) {
 
   return (
     <div className={`cal-root cal-step-${safeStep}`}>
-      <div className="cal-continuity-spine" aria-hidden>
-        <i />
-        <i />
-      </div>
+      <FrameLabel step={safeStep} />
+      <SystemLines safeStep={safeStep} />
       <div className="cal-signal-packet" aria-hidden>
         <span />
       </div>
-      {scenes[safeStep]}
+      <div className="cal-focus-lens" aria-hidden />
+      <div className={`cal-workbench ${isBuildPage ? "cal-page-build" : "cal-page-render"}`}>
+        {isBuildPage ? (
+          <>
+            <SourceZone safeStep={safeStep} />
+            <WorkflowZone safeStep={safeStep} />
+            <PipelineZone safeStep={safeStep} />
+            <ScriptZone safeStep={safeStep} />
+          </>
+        ) : (
+          <>
+            <MotionZone safeStep={safeStep} />
+            <AudioZone safeStep={safeStep} />
+            <RecordZone safeStep={safeStep} />
+            <OutputZone safeStep={safeStep} />
+          </>
+        )}
+      </div>
+      <CenterFocusCard safeStep={safeStep} />
     </div>
   );
 }
