@@ -428,11 +428,18 @@
 
 .cal-wave i {
   width: 8px;
-  height: calc(24px + (var(--i) % 9) * 18px);
+  height: 72px;
   background: var(--text-faint);
   animation: cal-wave 900ms ease-in-out infinite alternate;
   animation-delay: calc(var(--i) * 28ms);
 }
+
+.cal-wave i:nth-child(6n + 1) { height: 42px; }
+.cal-wave i:nth-child(6n + 2) { height: 118px; }
+.cal-wave i:nth-child(6n + 3) { height: 84px; }
+.cal-wave i:nth-child(6n + 4) { height: 156px; }
+.cal-wave i:nth-child(6n + 5) { height: 62px; }
+.cal-wave i:nth-child(6n + 6) { height: 132px; }
 
 .cal-cues {
   display: flex;
