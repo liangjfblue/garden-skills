@@ -1,25 +1,640 @@
+.cal-root,
 .cal-scene {
+  width: 100%;
+  height: 100%;
   color: var(--text);
 }
 
+.cal-root {
+  position: relative;
+  overflow: hidden;
+}
+
+.cal-root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 45%, var(--accent-soft), transparent 32%),
+    linear-gradient(110deg, transparent 0 52%, rgba(255,255,255,0.035) 52% 52.4%, transparent 52.4%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.cal-scene {
+  position: relative;
+  padding: var(--stage-pad-y) var(--stage-pad-x);
+  box-sizing: border-box;
+}
+
+.cal-frame-label {
+  position: absolute;
+  top: 72px;
+  left: var(--stage-pad-x);
+  right: var(--stage-pad-x);
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  z-index: 10;
+}
+
 .cal-kicker {
-  font-family: var(--font-mono);
+  margin: 0;
   color: var(--accent);
+  font-family: var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.16em;
 }
 
-.cal-temp-title {
-  margin: 220px 0 24px;
-  font-family: var(--font-display-en);
-  font-size: 128px;
-  line-height: 1;
+.cal-step-one {
+  display: grid;
+  place-items: center;
 }
 
-.cal-temp-copy {
-  max-width: 680px;
+.cal-impact-ring {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  opacity: 0;
+  animation: cal-ring 1200ms ease-out forwards;
+}
+
+.cal-article-file {
+  position: absolute;
+  width: 270px;
+  height: 340px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -52%) rotate(-7deg);
+  background: var(--surface-2);
+  border: 1px solid var(--rule);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
+  animation: cal-file-drop 900ms cubic-bezier(.2, .9, .2, 1) forwards;
+}
+
+.cal-file-top {
+  padding: 22px 26px;
+  color: var(--accent);
+  border-bottom: 1px solid var(--rule);
+}
+
+.cal-file-lines {
+  padding: 28px 26px;
+}
+
+.cal-file-lines i {
+  display: block;
+  height: 10px;
+  margin-bottom: 18px;
+  background: var(--text-faint);
+}
+
+.cal-file-lines i:nth-child(1) { width: 82%; }
+.cal-file-lines i:nth-child(2) { width: 58%; }
+.cal-file-lines i:nth-child(3) { width: 74%; }
+.cal-file-lines i:nth-child(4) { width: 48%; }
+.cal-file-lines i:nth-child(5) { width: 66%; }
+
+.cal-fragments span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-family: var(--font-mono);
+  color: var(--text-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transform: translate(-50%, -50%) scale(.7);
+  animation: cal-fragment 1200ms cubic-bezier(.2, .8, .2, 1) forwards;
+  animation-delay: calc(var(--i) * 48ms + 260ms);
+  opacity: 0;
+}
+
+.cal-fragments span:nth-child(1) { --tx: -720px; --ty: -260px; --rot: -19deg; }
+.cal-fragments span:nth-child(2) { --tx: -410px; --ty: -340px; --rot: 8deg; }
+.cal-fragments span:nth-child(3) { --tx: 260px; --ty: -310px; --rot: -7deg; }
+.cal-fragments span:nth-child(4) { --tx: 620px; --ty: -190px; --rot: 16deg; }
+.cal-fragments span:nth-child(5) { --tx: -650px; --ty: 190px; --rot: 11deg; }
+.cal-fragments span:nth-child(6) { --tx: -280px; --ty: 320px; --rot: -13deg; }
+.cal-fragments span:nth-child(7) { --tx: 310px; --ty: 290px; --rot: 6deg; }
+.cal-fragments span:nth-child(8) { --tx: 690px; --ty: 170px; --rot: -11deg; }
+
+.cal-hero-lockup {
+  position: absolute;
+  left: var(--stage-pad-x);
+  bottom: 120px;
+}
+
+.cal-hero-lockup h1 {
+  margin: 18px 0 18px;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-display-en);
+  font-size: 132px;
+  line-height: .92;
+  letter-spacing: 0;
+}
+
+.cal-hero-lockup p:last-child {
+  margin: 0;
   color: var(--text-2);
-  font-family: var(--font-body);
+  font-size: 34px;
+}
+
+.cal-step-two {
+  display: grid;
+  grid-template-columns: 1fr 520px;
+  align-items: center;
+  gap: 80px;
+}
+
+.cal-tangle {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.cal-tangle path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 10 16;
+  opacity: 0.45;
+  stroke-dashoffset: 520;
+  animation: cal-draw 1400ms ease-out forwards;
+}
+
+.cal-islands {
+  position: relative;
+  height: 650px;
+}
+
+.cal-island {
+  position: absolute;
+  width: 230px;
+  padding: 26px;
+  animation: cal-island 900ms cubic-bezier(.2, .8, .2, 1) forwards;
+  animation-delay: calc(var(--i) * 90ms);
+  opacity: 0;
+}
+
+.cal-island:nth-child(1) { left: 70px; top: 70px; }
+.cal-island:nth-child(2) { left: 420px; top: 30px; }
+.cal-island:nth-child(3) { left: 250px; top: 270px; }
+.cal-island:nth-child(4) { left: 640px; top: 310px; }
+.cal-island:nth-child(5) { left: 120px; top: 520px; }
+
+.cal-island span,
+.cal-island strong {
+  display: block;
+}
+
+.cal-island strong {
+  margin-top: 16px;
+  font-family: var(--font-display-en);
+  font-size: 42px;
+}
+
+.cal-side-copy h2,
+.cal-statement,
+.cal-motion-title,
+.cal-step-six h2,
+.cal-final-copy h2 {
+  margin: 18px 0 0;
+  font-family: var(--font-display-en);
+  font-size: 82px;
+  line-height: 1;
+  max-width: 900px;
+}
+
+.cal-step-three {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cal-pipeline {
+  position: relative;
+  height: 360px;
+}
+
+.cal-pipeline-source {
+  position: absolute;
+  left: 0;
+  top: 112px;
+  width: 250px;
+  padding: 28px;
+  z-index: 2;
+}
+
+.cal-pipeline-source strong {
+  display: block;
+  margin-top: 14px;
+  font-size: 38px;
+}
+
+.cal-pipe-line {
+  position: absolute;
+  left: 270px;
+  top: 90px;
+  width: 1160px;
+  height: 180px;
+}
+
+.cal-pipe-line path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 4;
+  stroke-dasharray: 1120;
+  stroke-dashoffset: 1120;
+  animation: cal-draw 1600ms ease-out forwards;
+}
+
+.cal-pipeline-nodes {
+  position: absolute;
+  left: 330px;
+  right: 40px;
+  top: 100px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cal-node {
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+  opacity: 0;
+  animation: cal-node 700ms ease-out forwards;
+  animation-delay: calc(var(--i) * 160ms + 300ms);
+}
+
+.cal-node span {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 44px var(--accent-glow);
+}
+
+.cal-node strong {
+  font-family: var(--font-mono);
+  color: var(--text-2);
+}
+
+.cal-step-four {
+  display: grid;
+  grid-template-columns: 620px 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.cal-script-panel {
+  padding: 38px;
+}
+
+.cal-script-panel p {
+  margin: 28px 0 0;
+  color: var(--text-2);
+  font-size: 30px;
+  line-height: 1.45;
+}
+
+.cal-beat-stack {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.cal-beat {
+  padding: 24px;
+  border: 1px solid var(--rule);
+  background: var(--surface-2);
+  transform-origin: left center;
+  animation: cal-beat 650ms cubic-bezier(.2, .8, .2, 1) forwards;
+  animation-delay: calc(var(--i) * 85ms);
+  opacity: 0;
+}
+
+.cal-beat strong {
+  display: block;
+  margin-top: 12px;
   font-size: 32px;
-  line-height: 1.4;
+}
+
+.cal-step-five {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 64px;
+}
+
+.cal-motion-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.cal-motion-card {
+  min-height: 360px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  animation: cal-card-rise 760ms ease-out forwards;
+  animation-delay: calc(var(--i) * 90ms);
+  opacity: 0;
+}
+
+.cal-motion-card strong {
+  font-size: 34px;
+  line-height: 1.05;
+}
+
+.cal-mini {
+  height: 110px;
+  position: relative;
+  border-top: 1px solid var(--rule);
+}
+
+.cal-mini i {
+  position: absolute;
+  display: block;
+  background: var(--accent);
+}
+
+.cal-mini-0 i {
+  width: 44px;
+  height: 8px;
+  left: calc(20px + var(--i) * 54px);
+  top: calc(30px + var(--i) * 20px);
+  animation: cal-pulse 900ms ease-in-out infinite alternate;
+}
+
+.cal-mini-1 i {
+  width: 72px;
+  height: 2px;
+  left: calc(20px + var(--i) * 44px);
+  top: calc(72px - var(--i) * 18px);
+  transform: rotate(calc(var(--i) * 18deg));
+}
+
+.cal-mini-2 i {
+  width: 34px;
+  height: 86px;
+  left: calc(28px + var(--i) * 50px);
+  bottom: 0;
+  opacity: calc(.35 + var(--i) * .2);
+}
+
+.cal-mini-3 i {
+  height: 10px;
+  left: 20px;
+  top: calc(28px + var(--i) * 24px);
+  width: calc(60px + var(--i) * 34px);
+}
+
+.cal-mini-4 i {
+  width: 58px;
+  height: 28px;
+  left: calc(18px + var(--i) * 58px);
+  top: calc(30px + var(--i) * 16px);
+  border-radius: 4px;
+}
+
+.cal-step-six {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 70px;
+}
+
+.cal-audio-board {
+  padding: 54px;
+  border: 1px solid var(--rule);
+  background: var(--surface-2);
+}
+
+.cal-wave {
+  height: 220px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cal-wave i {
+  width: 8px;
+  height: calc(24px + (var(--i) % 9) * 18px);
+  background: var(--text-faint);
+  animation: cal-wave 900ms ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * 28ms);
+}
+
+.cal-cues {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cal-cue {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  opacity: 0;
+  animation: cal-node 600ms ease-out forwards;
+  animation-delay: calc(var(--i) * 130ms + 280ms);
+}
+
+.cal-cue span {
+  width: 18px;
+  height: 18px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 32px var(--accent-glow);
+}
+
+.cal-cue strong {
+  font-family: var(--font-mono);
+  color: var(--text-2);
+}
+
+.cal-step-seven {
+  display: grid;
+  place-items: center;
+}
+
+.cal-record-frame {
+  position: relative;
+  width: 1260px;
+  height: 700px;
+  border: 3px solid var(--accent);
+  box-shadow: 0 0 70px var(--accent-glow), inset 0 0 90px rgba(0,0,0,.28);
+  animation: cal-record 900ms ease-out forwards;
+}
+
+.cal-record-frame > .label-mono {
+  position: absolute;
+  top: 26px;
+  left: 68px;
+  color: var(--accent);
+}
+
+.cal-rec-dot {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 31px;
+  left: 34px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: cal-blink 700ms infinite;
+}
+
+.cal-rec-stage {
+  position: absolute;
+  inset: 110px 90px 110px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--rule);
+}
+
+.cal-rec-stage strong {
+  font-size: 92px;
+  font-family: var(--font-display-en);
+}
+
+.cal-rec-stage span {
+  color: var(--text-2);
+  font-size: 28px;
+}
+
+.cal-record-rail {
+  position: absolute;
+  left: 300px;
+  right: 300px;
+  bottom: 112px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cal-record-rail i {
+  width: 74px;
+  height: 8px;
+  background: var(--accent);
+  opacity: 0;
+  animation: cal-rail 900ms ease-out forwards;
+  animation-delay: calc(var(--i) * 90ms);
+}
+
+.cal-step-eight {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 86px;
+}
+
+.cal-final-chain {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+}
+
+.cal-chain-item {
+  min-height: 160px;
+  padding: 28px;
+  border: 1px solid var(--rule);
+  background: var(--surface-2);
+  animation: cal-card-rise 700ms ease-out forwards;
+  animation-delay: calc(var(--i) * 100ms);
+  opacity: 0;
+}
+
+.cal-chain-item strong {
+  display: block;
+  margin-top: 24px;
+  font-size: 31px;
+  line-height: 1.05;
+}
+
+.cal-chain-item:last-child {
+  border-color: var(--accent);
+  box-shadow: 0 0 42px var(--accent-glow);
+}
+
+.cal-final-copy p:last-child {
+  margin: 24px 0 0;
+  color: var(--text-2);
+  font-size: 34px;
+}
+
+@keyframes cal-ring {
+  0% { transform: scale(.4); opacity: 0; }
+  25% { opacity: .8; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+@keyframes cal-file-drop {
+  0% { transform: translate(-50%, -180%) rotate(-14deg); opacity: 0; }
+  80% { transform: translate(-50%, -50%) rotate(-7deg); opacity: 1; }
+  100% { transform: translate(-50%, -52%) rotate(-7deg); opacity: 1; }
+}
+
+@keyframes cal-fragment {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.7); }
+  100% {
+    opacity: .78;
+    transform: translate(var(--tx), var(--ty)) rotate(var(--rot));
+  }
+}
+
+@keyframes cal-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes cal-island {
+  from { opacity: 0; transform: translateY(40px) scale(.94); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes cal-node {
+  from { opacity: 0; transform: translateY(24px) scale(.82); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes cal-beat {
+  from { opacity: 0; transform: translateX(-44px) scaleX(.8); }
+  to { opacity: 1; transform: translateX(0) scaleX(1); }
+}
+
+@keyframes cal-card-rise {
+  from { opacity: 0; transform: translateY(42px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cal-pulse {
+  from { opacity: .35; transform: translateX(0); }
+  to { opacity: 1; transform: translateX(18px); }
+}
+
+@keyframes cal-wave {
+  from { transform: scaleY(.45); opacity: .45; }
+  to { transform: scaleY(1); opacity: .9; }
+}
+
+@keyframes cal-record {
+  from { transform: scale(.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes cal-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .28; }
+}
+
+@keyframes cal-rail {
+  from { opacity: 0; transform: scaleX(.2); }
+  to { opacity: .85; transform: scaleX(1); }
 }
