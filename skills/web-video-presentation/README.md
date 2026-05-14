@@ -10,7 +10,7 @@
 
 ## What Is This?
 
-`web-video-presentation` helps an agent build a Vite + React + TypeScript presentation that behaves like a video production surface rather than a slide deck. Each click advances one narration beat, each step owns the whole 1920×1080 stage, and the progress UI stays hidden unless hovered so the output is clean for screen recording.
+`web-video-presentation` helps an agent build a Vite + React + TypeScript presentation that behaves like a video production surface rather than a slide deck. Each click advances one narration beat; a step can own the whole 1920×1080 stage or focus one region inside a persistent complex page. The progress UI stays hidden unless hovered so the output is clean for screen recording.
 
 It is designed for:
 
@@ -29,7 +29,7 @@ The skill is primarily a **methodology and collaboration workflow**. The scaffol
 
 - **Fixed 16:9 stage** — content is authored in a stable 1920×1080 coordinate system and scaled to the viewport.
 - **One global step cursor** — click or keyboard advances `(chapter, step)`, with the cursor persisted locally.
-- **One step, one idea** — every beat gets a focused full-screen scene instead of accumulating slide bullets.
+- **One step, one idea** — every beat gets one focused visual action, either as a full-screen scene or a region focus inside a complex page.
 - **Script beats drive structure** — narration rhythm maps directly to visual steps.
 - **Hidden chrome** — progress controls are hover-only, keeping recordings clean.
 - **Motion first** — each scene needs a moving visual anchor; static paragraphs are treated as a smell.

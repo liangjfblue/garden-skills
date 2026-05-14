@@ -11,7 +11,7 @@
 #   bash .cursor/skills/web-video-presentation/scripts/scaffold.sh ./talk --theme=paper-press
 #   bash .cursor/skills/web-video-presentation/scripts/scaffold.sh --list-themes
 #
-# 跑完后，看 SKILL.md "Phase 2.4 实现单章" + references/CHAPTER-CRAFT.md
+# 跑完后，看 SKILL.md "Phase 2.5 实现单章" + references/CHAPTER-CRAFT.md
 # 了解每章怎么写。卡壳时翻 references/EXAMPLES/ 找完整章节 anchor。
 #
 # 之后切换主题，覆盖一个文件即可：
@@ -206,7 +206,7 @@ cat <<EOF
   • 点舞台任意位置推进全局 step 计数器。
   • 鼠标移到底部边缘可显出进度条；鼠标移到右上角可显出播放模式切换。
   • 把 src/chapters/01-example/ 替换成你自己的章节
-    （流程见 SKILL.md "Phase 2.4 实现单章" —— 每章一次到位完整版本，
+    （流程见 SKILL.md "Phase 2.5 实现单章" —— 每章一次到位完整版本，
      不分骨架 / 精修两步；动画选型由 chapter agent 按 CHAPTER-CRAFT.md
      Part 0 原则 7 + Part 1 五问决定）。
   • 在 src/registry/chapters.ts 注册每个新章节。
