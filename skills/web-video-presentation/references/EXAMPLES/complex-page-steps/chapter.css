@@ -1,0 +1,158 @@
+.cps-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 96px 120px;
+  color: var(--text);
+  background: var(--shell);
+}
+
+.cps-frame {
+  position: relative;
+  height: 100%;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.cps-header {
+  position: absolute;
+  left: 48px;
+  top: 40px;
+  right: 48px;
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-mute);
+  text-transform: uppercase;
+}
+
+.cps-map {
+  position: absolute;
+  inset: 260px 220px auto;
+  height: 220px;
+  pointer-events: none;
+}
+
+.cps-map i {
+  position: absolute;
+  left: calc(18% + var(--i) * 25%);
+  top: calc(40px + var(--i) * 48px);
+  width: 28%;
+  height: 2px;
+  background: var(--rule);
+  transform: rotate(calc(-8deg + var(--i) * 8deg));
+  transform-origin: left center;
+}
+
+.cps-step-2 .cps-map i,
+.cps-step-3 .cps-map i {
+  background: var(--accent);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+
+.cps-zone {
+  position: absolute;
+  width: 520px;
+  min-height: 220px;
+  padding: 32px;
+  border: 1px solid var(--rule);
+  background: var(--surface-2);
+  opacity: .24;
+  filter: saturate(.52);
+  transform: scale(.98);
+  transition:
+    opacity 420ms ease,
+    filter 420ms ease,
+    transform 420ms ease,
+    border-color 420ms ease,
+    box-shadow 420ms ease;
+}
+
+.cps-zone.is-active {
+  z-index: 3;
+  opacity: 1;
+  filter: saturate(1);
+  transform: scale(1);
+  border-color: var(--accent);
+  box-shadow: 0 0 42px var(--accent-glow);
+}
+
+.cps-zone.is-complete {
+  opacity: .58;
+  filter: saturate(.72);
+}
+
+.cps-zone span {
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.cps-zone h2 {
+  margin: 22px 0 0;
+  font-family: var(--font-display-en);
+  font-size: 54px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.cps-zone p {
+  margin: 20px 0 0;
+  color: var(--text-2);
+  font-size: 23px;
+  line-height: 1.35;
+}
+
+.cps-surface {
+  left: 80px;
+  top: 120px;
+}
+
+.cps-input {
+  right: 80px;
+  top: 120px;
+}
+
+.cps-process {
+  left: 80px;
+  bottom: 90px;
+}
+
+.cps-output {
+  right: 80px;
+  bottom: 90px;
+}
+
+.cps-signal {
+  position: absolute;
+  left: var(--signal-x, 328px);
+  top: var(--signal-y, 224px);
+  z-index: 4;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--accent);
+  background: var(--accent-soft);
+  box-shadow: 0 0 32px var(--accent-glow);
+  transform: rotate(45deg);
+  transition: left 520ms ease, top 520ms ease;
+}
+
+.cps-step-0 {
+  --signal-x: 328px;
+  --signal-y: 224px;
+}
+
+.cps-step-1 {
+  --signal-x: 1372px;
+  --signal-y: 224px;
+}
+
+.cps-step-2 {
+  --signal-x: 328px;
+  --signal-y: 690px;
+}
+
+.cps-step-3 {
+  --signal-x: 1372px;
+  --signal-y: 690px;
+}
+

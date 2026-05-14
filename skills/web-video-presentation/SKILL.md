@@ -1,6 +1,6 @@
 ---
 name: web-video-presentation
-description: 把一篇文章或口播稿，做成"看起来像视频"的点击驱动 16:9 网页演示，可选合成口播音频。流程：原始文章 → **一次产出**口播稿 + outline 开发计划 → 用户**一次对齐** 5 件事（稿子 / outline / 主题 / 素材 / 开发模式）→ 网页开发（逐章 / 顺序 / 并行）→ 可选音频合成（默认 MiniMax CLI mmx-cli）。**outline 只规划节奏与信息密度，不规划动画** —— 动画由章节开发时按 PRINCIPLES + ANTI-AI 法则即时设计。每次点击推进口播稿的一个节拍，每一步独占整屏，进度条平时隐藏只在悬浮时出现。适用场景：用网页做视频（动态 PPT 但不像 PPT）、把口播稿 / 文章变成可交互的解说、为 B 站 / YouTube / 视频号录屏教程、做有电影感的产品 / talk demo。本 Skill 沉淀的是设计方法论 + 协作流程 —— 不绑定任何特定样式 / 字体 / 颜色 —— 因此能复用到任意主题与美学。
+description: 把一篇文章或口播稿，做成"看起来像视频"的点击驱动 16:9 网页演示，可选合成口播音频。流程：原始文章 → **一次产出**口播稿 + outline 开发计划 → 用户**一次对齐** 5 件事（稿子 / outline / 主题 / 素材 / 开发模式）→ 网页开发（逐章 / 顺序 / 并行）→ 可选音频合成（默认 MiniMax CLI mmx-cli）。**outline 只规划节奏与信息密度，不规划动画** —— 动画由章节开发时按 PRINCIPLES + ANTI-AI 法则即时设计。每次点击推进口播稿的一个节拍；step 可以独占整屏，也可以在同一个复杂页面里逐区聚焦、逐层解释。进度条平时隐藏只在悬浮时出现。适用场景：用网页做视频（动态 PPT 但不像 PPT）、把口播稿 / 文章变成可交互的解说、为 B 站 / YouTube / 视频号录屏教程、做有电影感的产品 / talk demo。本 Skill 沉淀的是设计方法论 + 协作流程 —— 不绑定任何特定样式 / 字体 / 颜色 —— 因此能复用到任意主题与美学。
 ---
 
 # Web Video Presentation
@@ -34,12 +34,14 @@ Phase 1   内容编写
                          稿子 / outline / 主题 / 素材 / 开发模式
    ▼
 Phase 2   网页开发
-   2.1  脚手架（按选定主题）
-   2.2  第 1 章 = 主线程 + 完整版本（强制 anchor）
+   2.1  Direction pass：创建 motion-treatment.md
+        （如需声音，创建 sound-plan.md）
+   2.2  脚手架（按选定主题）
+   2.3  第 1 章 = 主线程 + 完整版本（强制 anchor）
         ▼
         [硬节点] 用户验收第 1 章 ← 不可跳过
         ▼
-   2.3  第 2~N 章（按选定模式：A 逐章 / B 顺序 / C 并行）
+   2.4  第 2~N 章（按选定模式：A 逐章 / B 顺序 / C 并行）
    ▼
 [Checkpoint Audio]     ← 必须停。是否合成音频
    ▼
@@ -55,6 +57,8 @@ my-video/
 ├── article.md          # 用户给原文时必有 —— 不删！开发阶段画面信息源
 ├── script.md           # 必有：B 站风格口播稿（决定节拍）
 ├── outline.md          # 必有：开发计划（章节切分 + 每步内容 + 信息池）
+├── motion-treatment.md # Phase 2 必有：每步主导动作 / 转场 / 连续视觉对象
+├── sound-plan.md       # 可选：step sound cue 意图和素材映射
 ├── asset-plan.md       # 可选但推荐：每章图片素材需求
 ├── image-prompts.md    # 可选但推荐：GPT Image 2 生图 prompt
 ├── image-manifest.json # 可选但推荐：生成素材路径 / 状态 / task id
@@ -85,6 +89,8 @@ my-video/
 |---|---|
 | `script.md` | [`SCRIPT-STYLE.md`](references/SCRIPT-STYLE.md) 三层自检（形式 / 风骨 / 念出来） |
 | `outline.md` | [`OUTLINE-FORMAT.md`](references/OUTLINE-FORMAT.md) 自检 |
+| `motion-treatment.md` | [`MOTION-TREATMENT.md`](references/MOTION-TREATMENT.md) 开工门槛 |
+| `sound-plan.md` | [`SOUND-DESIGN.md`](references/SOUND-DESIGN.md) 音效不抢旁白 |
 | 单章实现完成 | [`CHAPTER-CRAFT.md`](references/CHAPTER-CRAFT.md) 完工自检 |
 
 **执行方式**（按能力降级，**优先用更隔离的方式**）：
@@ -105,14 +111,15 @@ my-video/
 ## 各阶段文件读取指南
 
 不同阶段读不同的文件。**长会话里 agent 容易遗忘原则**，特别是
-Phase 2.4 的"实现单章"会重复 N 次 —— 每次都要回看核心约束。
+Phase 2.5 的"实现单章"会重复 N 次 —— 每次都要回看核心约束。
 
 | 阶段 | 必读（每次都看） | 一次性看完 / 按需查 |
 |---|---|---|
 | Phase 1.1-1.2 内容编写 | `references/SCRIPT-STYLE.md` + `references/OUTLINE-FORMAT.md` + `article.md`（用户原文，如有） | —— |
 | **Checkpoint Plan 选主题** | —— | `themes/*/theme.json`（动态读全部，列清单 + `bestFor` 推荐 + `descriptionZh`）；`references/THEMES.md`（用户想了解主题系统时） |
-| Phase 2.1 脚手架 | —— | SKILL.md 本节看一次 |
-| **Phase 2.4 实现单章（×N 次，被 2.2 / 2.3 调用）** | **`references/CHAPTER-CRAFT.md`** 单一入口 —— Part 0 十条原则 / Part 1 开工 5 问 / Part 2 关系→动作决策树 / Part 3 视觉工具箱 / Part 4 时长参考 / Part 5 反 AI 味反模式 / Part 6 代码硬规则（**含 narrations.ts 强制约束**）/ Part 7 完工自检 / Part 8 反馈速查 + 当前主题的 `themes/<id>/theme.json` + 当前章节的 outline.md 段落 + **`article.md` 本章对应段落** + 素材清单 | `references/EXAMPLES/`（结构示意，不是抄袭模板）；`references/THEMES.md` 完整 token 契约 |
+| Phase 2.1 Direction pass | `references/MOTION-TREATMENT.md` + `outline.md` + `script.md` + `article.md` | 用户要音效时读 `references/SOUND-DESIGN.md` |
+| Phase 2.2 脚手架 | —— | SKILL.md 本节看一次 |
+| **Phase 2.5 实现单章（×N 次，被 2.3 / 2.4 调用）** | **`references/CHAPTER-CRAFT.md`** 单一入口 + `motion-treatment.md` 当前章节段落 —— Part 0 十条原则 / Part 1 开工 5 问 / Part 2 关系→动作决策树 / Part 3 视觉工具箱 / Part 4 时长参考 / Part 5 反 AI 味反模式 / Part 6 代码硬规则（**含 narrations.ts 强制约束**）/ Part 7 完工自检 / Part 8 反馈速查 + 当前主题的 `themes/<id>/theme.json` + 当前章节的 outline.md 段落 + **`article.md` 本章对应段落** + 素材清单 | `references/EXAMPLES/`（结构示意，不是抄袭模板）；`references/THEMES.md` 完整 token 契约；产品 UI / dashboard / 系统图读 `references/COMPLEX-PAGE-STEPS.md`；有音效时读 `sound-plan.md` |
 | GPT Image 2 生图 | `references/IMAGE-GENERATION.md` | `GPT Image 2 提示词模板库.md` |
 | Phase 3 音频合成 | `references/AUDIO.md`（含 narrations.ts → segments.json → mmx 流程） | —— |
 | Phase 4 录屏 + 后期 | `references/RECORDING.md`（含 `?auto=1` 自动录屏） | —— |
@@ -238,7 +245,32 @@ Phase 2.4 的"实现单章"会重复 N 次 —— 每次都要回看核心约束
 
 ## Phase 2 —— 网页开发
 
-### 2.1 脚手架
+### 2.1 Direction pass：motion treatment
+
+进入脚手架 / 章节代码前，先创建 `motion-treatment.md`。短片只有一章时写
+整片；多章项目可以先写全片总表，或按当前要开发的章节写局部 treatment。
+
+写法见 [`references/MOTION-TREATMENT.md`](references/MOTION-TREATMENT.md)。
+核心表格：
+
+```markdown
+| Step | Narrative Beat | Dominant Action | Transition In | Transition Out | Persistent Object | Extra Visual Information | Anti-PPT Risk |
+|---|---|---|---|---|---|---|---|
+```
+
+硬门槛：
+
+- 每个 step 必须有一个主导动作
+- 每个 step 必须有 transition out
+- 至少一个视觉对象跨相邻 step 延续
+- 文字是标签，不是整屏主体
+- 如果某 step 能描述成"标题 + 卡片"，先重写
+
+如果用户要求音效 / 产品发布感 / 电影感 / 自动录屏成片感，同时创建
+`sound-plan.md`，规则见 [`references/SOUND-DESIGN.md`](references/SOUND-DESIGN.md)。
+本地 step cue 音量默认从 `0.10` 到 `0.16` 起步，不要抢旁白。
+
+### 2.2 脚手架
 
 ```bash
 bash .cursor/skills/web-video-presentation/scripts/scaffold.sh \
@@ -281,7 +313,7 @@ APIMART_API_KEY=sk-... npm run generate-images
 
 详细规则见 [`references/IMAGE-GENERATION.md`](references/IMAGE-GENERATION.md)。
 
-### 2.2 第 1 章 —— 主线程 + 强制验收
+### 2.3 第 1 章 —— 主线程 + 强制验收
 
 **核心**：第 1 章 = 完整版本一次到位（节奏 + 视觉 + 真素材齐全）。
 **没有"骨架版"概念** —— 第一章就要做出**用户能直接验收**的样板。
@@ -310,11 +342,12 @@ APIMART_API_KEY=sk-... npm run generate-images
 问题告诉我，我针对性改。OK 了告诉我"继续"，我按选定模式做第 2 章及之后。
 ```
 
-### 2.3 第 2~N 章 —— 按选定模式
+### 2.4 第 2~N 章 —— 按选定模式
 
 **所有模式下的共同规则**：每章独立按 [`CHAPTER-CRAFT.md`](references/CHAPTER-CRAFT.md)
-开发。**风格不强求章节间完全一致** —— 主题颜色 / 字体 token 兜底视觉
-统一，动画 / 节奏 / 视觉演示由章节自由发挥是设计预期。
+开发，并读取 `motion-treatment.md` 当前章节段落。**风格不强求章节间完全
+一致** —— 主题颜色 / 字体 token 兜底视觉统一，动画 / 节奏 / 视觉演示
+由章节自由发挥是设计预期。
 
 #### 模式 A · 默认 · 逐章确认
 
@@ -342,6 +375,8 @@ APIMART_API_KEY=sk-... npm run generate-images
 并行 subagent 的 prompt 必须包含：
 
 - 当前章节 outline 段落（含信息池）
+- 当前章节 motion treatment 段落（含主导动作 / 进出转场 / 连续对象 /
+  Anti-PPT 风险）
 - `references/CHAPTER-CRAFT.md` 的路径（**单一必读** —— 视觉演示要求 +
   逐步揭示 + 双源原则 + 反 AI 味 + 代码红线 + 完工自检全部在这一份里）
 - 当前主题 `theme.json` 的 `descriptionZh` / `mood` / `bestFor`（参考气质
@@ -353,7 +388,7 @@ APIMART_API_KEY=sk-... npm run generate-images
 **重要**：无论选哪种模式，**用户随时可以中途切换模式**。第 2 章 OK
 后用户说"剩下的并行" / "剩下的逐章" 都行。
 
-### 2.4 实现单章（每章必走）
+### 2.5 实现单章（每章必走）
 
 详细指引见 [`references/CHAPTER-CRAFT.md`](references/CHAPTER-CRAFT.md) ——
 **单一必读入口**，覆盖：视觉演示要求 / 逐步揭示 / 内容取舍 / 双源原则
@@ -365,10 +400,12 @@ APIMART_API_KEY=sk-... npm run generate-images
 - **逐步揭示**：清单 / 列表必须 1 项 = 1 step，禁一次全展示
 - **双源原则**：节奏跟口播稿（顺序不能乱），细节回原文章抽（信息池 +
   本章 article 段落）
+- **motion treatment 落地**：每个 step 必须兑现主导动作、transition out
+  和连续视觉对象；发现 treatment 仍像 PPT 时，先回去改 treatment
 - **完工自检逐项过**，不达标回去改 —— 按上文「硬性自检协议」执行
   （优先 Agent Teams → subAgent → 自检），**改完再向用户汇报本章交付**
 
-### 2.5 大改后 bump STORAGE_KEY
+### 2.6 大改后 bump STORAGE_KEY
 
 改动 `chapters.ts`（增加 / 删除 / 重排章节，或某章 `narrations.ts`
 长度变化）后，**bump** `presentation/src/hooks/useStepper.ts` 的
@@ -433,7 +470,7 @@ Part 0 —— **写章节时回那里查**，下面只是索引。
 |---|---|---|
 | 1 | 16:9 固定舞台 | 内容 1920×1080 + transform scale，没有响应式 |
 | 2 | 全局 step 计数器 | 章节是 step 的纯函数，无定时器 |
-| 3 | 每步独占整屏 | `if (step === N) return <FullScene />` |
+| 3 | 每步一个聚焦想法 | 可以换整屏，也可以在同一复杂页面里移动焦点 |
 | 4 | 口播节拍 = step | 一节拍 = 一 step = 一聚焦想法 |
 | 5 | 隐藏的边角控件 | 进度条 / 翻页器默认 opacity 0 |
 | 6 | 舞台无 chrome | 没有 header / footer / 页码 / 品牌条 |
@@ -460,12 +497,15 @@ Part 8「常见反馈速查」。**关键**：先定位是哪一层（节奏 / �
 |---|---|---|
 | [`references/SCRIPT-STYLE.md`](references/SCRIPT-STYLE.md) | Phase 1.2 必读 | 文章 → 口播稿规则、平台变体 |
 | [`references/OUTLINE-FORMAT.md`](references/OUTLINE-FORMAT.md) | Phase 1.2 必读 | outline.md 字段 spec、命名约定、章节切分、信息池 |
-| [`references/CHAPTER-CRAFT.md`](references/CHAPTER-CRAFT.md) | **Phase 2.4 每章单一必读入口** | Part 0 十条原则 / Part 1 开工 5 问 / Part 2 关系→动作决策树 / Part 3 视觉工具箱 / Part 4 时长 / Part 5 反 AI 味反模式 / Part 6 代码硬规则 / Part 7 完工自检 / Part 8 反馈速查 |
+| [`references/MOTION-TREATMENT.md`](references/MOTION-TREATMENT.md) | Phase 2.1 / 单章开工前 | motion-treatment.md 表格、开工门槛、Anti-PPT 风险 |
+| [`references/SOUND-DESIGN.md`](references/SOUND-DESIGN.md) | 用户要音效 / 电影感时 | sound-plan.md、cue 设计、音量建议 |
+| [`references/CHAPTER-CRAFT.md`](references/CHAPTER-CRAFT.md) | **Phase 2.5 每章单一必读入口** | Part 0 十条原则 / Part 1 开工 5 问 / Part 2 关系→动作决策树 / Part 3 视觉工具箱 / Part 4 时长 / Part 5 反 AI 味反模式 / Part 6 代码硬规则 / Part 7 完工自检 / Part 8 反馈速查 |
+| [`references/COMPLEX-PAGE-STEPS.md`](references/COMPLEX-PAGE-STEPS.md) | 产品 UI / 系统图 / dashboard / 复杂链路 | 同一复杂页面多 step 聚焦模式 |
 | [`references/EXAMPLES/`](references/EXAMPLES/) | **可选** —— 看结构 | 章节结构示意（hook / list-reveal / case-tech-review）；**不是抄袭模板** |
 | [`references/THEMES.md`](references/THEMES.md) | 选 / 造 / 切主题时 | 完整 token 契约 + 内置主题清单 + 创作流程 |
 | [`references/AUDIO.md`](references/AUDIO.md) | Phase 3 才读 | MiniMax CLI、TTS 退化路径、故障排查 |
 | [`references/IMAGE-GENERATION.md`](references/IMAGE-GENERATION.md) | 使用 GPT Image 2 生图时 | asset-plan / image-prompts / APIMart 脚本 / manifest 流程 |
 | [`references/RECORDING.md`](references/RECORDING.md) | Phase 4 才读 | 录屏工具 + 后期合成 |
 | [`themes/`](themes) | Checkpoint Plan / Phase 1.2 时翻 | 内置主题（每个含 `theme.json` + `tokens.css`） |
-| [`scripts/scaffold.sh`](scripts/scaffold.sh) | Phase 2.1 跑一次 | 一键项目脚手架 |
+| [`scripts/scaffold.sh`](scripts/scaffold.sh) | Phase 2.2 跑一次 | 一键项目脚手架 |
 

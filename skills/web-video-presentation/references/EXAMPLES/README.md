@@ -28,6 +28,7 @@
 |---|---|---|
 | [`hook-chapter/`](hook-chapter/) | **钩子型开场** —— 多张图片逐张揭示后 hero takeover | `chapter.tsx` + `chapter.css` |
 | [`list-reveal/`](list-reveal/) | **列举型** —— 口播说"三件事 / N 个特性"，每项 1 step | `chapter.tsx` + `chapter.css` |
+| [`complex-page-steps/`](complex-page-steps/) | **复杂页面讲解型** —— 同一 UI / dashboard / 系统图里逐区聚焦 | `chapter.tsx` + `chapter.css` |
 
 每个 example 都是**完整章节**：**内容驱动主导动作** + 必要的伴随动作
 （**不强求挂持续微动**，按 [`../CHAPTER-CRAFT.md`](../CHAPTER-CRAFT.md)
